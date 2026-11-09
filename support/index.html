@@ -337,7 +337,7 @@
     <div class="top-banner w-full bg-[#0a0a0c] text-white border-b border-white/10 px-4 py-1 text-xs flex items-center justify-between font-bubble z-50 flex-shrink-0">
       <div class="flex items-center gap-1.5 text-gray-300">
         <i class="fa-solid fa-headset text-[11px]"></i>
-        <span id="supportBannerText">Служба Поддержки</span>
+        <span id="supportBannerText">Support Center</span>
       </div>
       <div class="flex items-center gap-4">
         <div class="relative">
@@ -351,9 +351,6 @@
             <div onclick="setBannerCurrency('GBP — £')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">GBP — £</div>
           </div>
         </div>
-        <button onclick="toggleLanguage()" class="text-gray-300 hover:text-white transition-colors cursor-pointer" id="langToggleBtn">
-          Switch to English
-        </button>
       </div>
     </div>
 
@@ -374,8 +371,8 @@
 
           <!-- Navigation Links -->
           <div class="hidden md:flex items-center space-x-6 text-sm text-gray-300 font-bubble">
-            <a href="http://lie.lat/home/" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navMainSite">Главный сайт</a>
-            <a href="#" class="nav-link hover:text-white transition-colors duration-200 inline-block text-white font-bold" id="navContact">Контакты</a>
+            <a href="http://lie.lat/home/" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navMainSite">Main Site</a>
+            <a href="#" class="nav-link hover:text-white transition-colors duration-200 inline-block text-white font-bold" id="navContact">Contact</a>
           </div>
 
           <!-- Settings & Auth Controls -->
@@ -387,7 +384,7 @@
 
               <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-2xl p-3 dropdown-menu glass-pill z-50 font-bubble space-y-3 animate-fade-scale">
                 <div class="flex items-center justify-between px-2 py-1">
-                  <span class="text-xs font-bold text-gray-300" id="setLightModeLabel">Светлая тема</span>
+                  <span class="text-xs font-bold text-gray-300" id="setLightModeLabel">Light Mode</span>
                   <label class="ios-switch" style="transform: scale(0.75); transform-origin: right center;">
                     <input type="checkbox" id="lightModeToggle" onchange="toggleLightMode(this)">
                     <span class="ios-slider"></span>
@@ -395,7 +392,7 @@
                 </div>
                 <div id="dropdownSubStatus" class="border-t border-white/10 pt-2 px-2 hidden">
                   <div id="dropdownAssignedName" class="text-[11px] font-bold text-blue-400 mb-0.5"></div>
-                  <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="dropdownPaidUntilLabel">Оплачено до</div>
+                  <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="dropdownPaidUntilLabel">Paid until</div>
                   <div id="dropdownSubTime" class="text-xs font-bold text-white">No time left</div>
                 </div>
               </div>
@@ -403,7 +400,7 @@
 
             <div id="authButtonContainer" class="flex items-center">
               <button onclick="openLoginPage(event)" class="px-5 py-2 rounded-full bg-white text-black font-bubble font-bold text-xs sm:text-sm btn-spring" id="loginBtnText">
-                Войти
+                Log in
               </button>
             </div>
           </div>
@@ -414,28 +411,28 @@
       <main class="w-full flex-1 flex flex-col justify-center items-center max-w-2xl mx-auto px-4 my-8 z-10 text-center animate-view-transition font-bubble space-y-6">
         
         <div>
-          <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="contactTag">СВЯЖИТЕСЬ С НАМИ</span>
-          <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight" id="contactTitle">Центр Поддержки</h1>
+          <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="contactTag">GET IN TOUCH</span>
+          <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight" id="contactTitle">Support Center</h1>
           <p class="text-gray-400 text-xs sm:text-sm mt-3 max-w-md mx-auto" id="contactSub">
-            Наша команда готова ответить на любые ваши вопросы по поводу работы сервиса, оплаты и конфиденциальности.
+            Our team is here to help with any questions regarding service features, billing, or privacy concerns.
           </p>
         </div>
 
         <!-- Direct Email Display -->
         <div class="w-full space-y-2">
-          <span class="text-[11px] text-gray-400 font-bold block" id="emailLabel">Электронная почта поддержки</span>
+          <span class="text-[11px] text-gray-400 font-bold block" id="emailLabel">Support Email Address</span>
           <div onclick="copyEmailAddress(this)" class="inline-flex items-center gap-3 px-6 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 rounded-2xl cursor-pointer transition-all duration-200 group">
             <span class="font-mono text-lg sm:text-xl font-bold text-white tracking-wider">support@lie.lat</span>
             <span class="text-xs bg-white/10 text-gray-300 px-3 py-1 rounded-xl group-hover:bg-white group-hover:text-black transition-colors" id="copyEmailBtnText">
-              <i class="fa-regular fa-copy mr-1"></i> Копировать
+              <i class="fa-regular fa-copy mr-1"></i> Copy
             </span>
           </div>
         </div>
 
         <!-- Direct Response Time Display -->
         <div class="pt-2">
-          <div class="text-xs font-bold text-gray-400 uppercase tracking-widest" id="responseTimeTitle">Время ответа</div>
-          <div class="text-sm font-bold text-white mt-1" id="responseTimeText">12-24 часа</div>
+          <div class="text-xs font-bold text-gray-400 uppercase tracking-widest" id="responseTimeTitle">Response Time</div>
+          <div class="text-sm font-bold text-white mt-1" id="responseTimeText">12-24 hours</div>
         </div>
 
       </main>
@@ -445,7 +442,7 @@
         <div id="footerSubStatus" class="hidden flex items-center gap-3">
           <div>
             <div id="footerAssignedName" class="text-[11px] font-bold text-blue-400 mb-0.5"></div>
-            <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="footerPaidUntilLabel">Оплачено до</div>
+            <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="footerPaidUntilLabel">Paid until</div>
             <div id="footerSubTime" class="text-xs font-bold text-white">No time left</div>
           </div>
         </div>
@@ -458,15 +455,15 @@
   <!-- Login Overlay -->
   <div id="loginView" class="hidden fixed inset-0 z-[100] bg-[#0a0a0c]/70 backdrop-blur-md flex flex-col justify-center items-center px-4 py-12 opacity-0 transition-opacity duration-300 overflow-y-auto">
     <button onclick="closeLoginPage(event)" class="absolute top-6 left-6 text-gray-400 hover:text-white font-bubble text-sm flex items-center gap-2 transition-transform duration-200 hover:-translate-x-1" id="loginBackBtn">
-      <i class="fa-solid fa-arrow-left"></i> Назад
+      <i class="fa-solid fa-arrow-left"></i> Back
     </button>
 
     <div id="loginCard" class="w-full max-w-lg auth-card bg-[#121216] border border-white/10 rounded-3xl p-8 sm:p-10 flex flex-col space-y-6 font-bubble transform scale-95 opacity-0 transition-all duration-400">
       <div>
-        <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="loginTitleTag">ВХОД</span>
-        <h2 class="text-white text-xl sm:text-2xl font-bold tracking-tight" id="loginHeaderTitle">ВВЕДИТЕ НОМЕР АККАУНТА</h2>
+        <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="loginTitleTag">LOG IN</span>
+        <h2 class="text-white text-xl sm:text-2xl font-bold tracking-tight" id="loginHeaderTitle">ENTER YOUR ACCOUNT NUMBER</h2>
         <p class="text-gray-400 text-xs mt-1.5 leading-relaxed" id="loginDescText">
-          Номер аккаунта — ваш единственный идентификатор. <strong class="text-gray-200">Из соображений безопасности мы не сможем показать его снова после входа.</strong>
+          Your account number is the only identifier you need to use our service. <strong class="text-gray-200">For security and privacy reasons we cannot show it again after login.</strong>
         </p>
       </div>
 
@@ -474,12 +471,12 @@
         <div class="auth-inner-box flex items-center gap-3 bg-[#0a0a0c] border border-white/10 rounded-2xl p-4 transition-colors duration-200 hover:border-white/20">
           <input type="checkbox" id="savedConfirm" class="w-4 h-4 accent-white cursor-pointer" />
           <label for="savedConfirm" class="text-xs text-gray-300 cursor-pointer select-none" id="loginCheckboxLabel">
-            Вы сохранили номер своего аккаунта? Я подтверждаю.
+            Have you saved your account number? I confirm that I've saved my account number.
           </label>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-gray-300 mb-2" id="loginAccLabel">Номер аккаунта</label>
+          <label class="block text-xs font-bold text-gray-300 mb-2" id="loginAccLabel">Account number</label>
           <div class="relative">
             <input type="password" id="loginInput" placeholder="" class="auth-input w-full bg-[#0a0a0c] border border-white/15 rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none focus:border-white/40 tracking-wider font-mono transition-colors duration-200" />
             <button onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs transition-transform active:scale-90">
@@ -489,112 +486,19 @@
         </div>
 
         <button onclick="performLogin()" class="auth-btn w-full bg-white hover:bg-gray-200 border border-white/20 text-black font-bold text-sm py-4 rounded-2xl transition-transform duration-200 transform hover:-translate-y-0.5 active:translate-y-0.5 tracking-widest" id="loginSubmitBtn">
-          ВОЙТИ
+          LOG IN
         </button>
       </div>
     </div>
   </div>
 
   <script>
-    // Language Toggle / Localization
-    if (!localStorage.getItem('lielat_lang_initialized')) {
-      localStorage.setItem('lielat_lang', 'ru');
-      localStorage.setItem('lielat_lang_initialized', 'true');
-    }
-    let currentLang = localStorage.getItem('lielat_lang') || 'ru';
-
-    function toggleLanguage() {
-      currentLang = currentLang === 'en' ? 'ru' : 'en';
-      localStorage.setItem('lielat_lang', currentLang);
-      applyTranslations();
-      showCustomToast(currentLang === 'ru' ? 'Язык изменен на Русский' : 'Language switched to English', 'fa-solid fa-language');
-    }
-
     function setBannerCurrency(val) {
       document.getElementById('bannerCurrencyLabel').innerText = val;
       document.getElementById('bannerCurrencyMenu').classList.add('hidden');
       const currencySymbol = val.split(' — ')[1];
       const currencyCode = val.split(' — ')[0];
       showCustomToast(`Currency updated to ${currencyCode} (${currencySymbol})`, 'fa-solid fa-coins');
-    }
-
-    function applyTranslations() {
-      const langBtn = document.getElementById('langToggleBtn');
-      const supportText = document.getElementById('supportBannerText');
-      const navMainSite = document.getElementById('navMainSite');
-      const navContact = document.getElementById('navContact');
-      const setLightModeLabel = document.getElementById('setLightModeLabel');
-      const dropdownPaidUntilLabel = document.getElementById('dropdownPaidUntilLabel');
-      const footerPaidUntilLabel = document.getElementById('footerPaidUntilLabel');
-      const loginBtnText = document.getElementById('loginBtnText');
-      
-      const contactTag = document.getElementById('contactTag');
-      const contactTitle = document.getElementById('contactTitle');
-      const contactSub = document.getElementById('contactSub');
-      const emailLabel = document.getElementById('emailLabel');
-      const copyEmailBtnText = document.getElementById('copyEmailBtnText');
-      const responseTimeTitle = document.getElementById('responseTimeTitle');
-      const responseTimeText = document.getElementById('responseTimeText');
-
-      const loginBackBtn = document.getElementById('loginBackBtn');
-      const loginTitleTag = document.getElementById('loginTitleTag');
-      const loginHeaderTitle = document.getElementById('loginHeaderTitle');
-      const loginDescText = document.getElementById('loginDescText');
-      const loginCheckboxLabel = document.getElementById('loginCheckboxLabel');
-      const loginAccLabel = document.getElementById('loginAccLabel');
-      const loginSubmitBtn = document.getElementById('loginSubmitBtn');
-
-      if (currentLang === 'ru') {
-        if (langBtn) langBtn.innerText = "Switch to English";
-        if (supportText) supportText.innerText = "Служба Поддержки";
-        if (navMainSite) navMainSite.innerText = "Главный сайт";
-        if (navContact) navContact.innerText = "Контакты";
-        if (setLightModeLabel) setLightModeLabel.innerText = "Светлая тема";
-        if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Оплачено до";
-        if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Оплачено до";
-        if (loginBtnText) loginBtnText.innerText = "Войти";
-        
-        if (contactTag) contactTag.innerText = "СВЯЖИТЕСЬ С НАМИ";
-        if (contactTitle) contactTitle.innerText = "Центр Поддержки";
-        if (contactSub) contactSub.innerText = "Наша команда готова ответить на любые ваши вопросы по поводу работы сервиса, оплаты и конфиденциальности.";
-        if (emailLabel) emailLabel.innerText = "Электронная почта поддержки";
-        if (copyEmailBtnText) copyEmailBtnText.innerHTML = '<i class="fa-regular fa-copy mr-1"></i> Копировать';
-        if (responseTimeTitle) responseTimeTitle.innerText = "ВРЕМЯ ОТВЕТА";
-        if (responseTimeText) responseTimeText.innerText = "12-24 часа";
-
-        if (loginBackBtn) loginBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Назад';
-        if (loginTitleTag) loginTitleTag.innerText = "ВХОД";
-        if (loginHeaderTitle) loginHeaderTitle.innerText = "ВВЕДИТЕ НОМЕР АККАУНТА";
-        if (loginDescText) loginDescText.innerHTML = 'Номер аккаунта — ваш единственный идентификатор. <strong class="text-gray-200">Из соображений безопасности мы не сможем показать его снова после входа.</strong>';
-        if (loginCheckboxLabel) loginCheckboxLabel.innerText = "Вы сохранили номер своего аккаунта? Я подтверждаю.";
-        if (loginAccLabel) loginAccLabel.innerText = "Номер аккаунта";
-        if (loginSubmitBtn) loginSubmitBtn.innerText = "ВОЙТИ";
-      } else {
-        if (langBtn) langBtn.innerText = "Переключить на Русский";
-        if (supportText) supportText.innerText = "Support Center";
-        if (navMainSite) navMainSite.innerText = "Main Site";
-        if (navContact) navContact.innerText = "Contact";
-        if (setLightModeLabel) setLightModeLabel.innerText = "Light Mode";
-        if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Paid until";
-        if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Paid until";
-        if (loginBtnText) loginBtnText.innerText = "Log in";
-
-        if (contactTag) contactTag.innerText = "GET IN TOUCH";
-        if (contactTitle) contactTitle.innerText = "Support Center";
-        if (contactSub) contactSub.innerText = "Our team is here to help with any questions regarding service features, billing, or privacy concerns.";
-        if (emailLabel) emailLabel.innerText = "Support Email Address";
-        if (copyEmailBtnText) copyEmailBtnText.innerHTML = '<i class="fa-regular fa-copy mr-1"></i> Copy';
-        if (responseTimeTitle) responseTimeTitle.innerText = "RESPONSE TIME";
-        if (responseTimeText) responseTimeText.innerText = "12-24 hours";
-
-        if (loginBackBtn) loginBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back';
-        if (loginTitleTag) loginTitleTag.innerText = "LOG IN";
-        if (loginHeaderTitle) loginHeaderTitle.innerText = "ENTER YOUR ACCOUNT NUMBER";
-        if (loginDescText) loginDescText.innerHTML = 'Your account number is the only identifier you need to use our service. <strong class="text-gray-200">For security and privacy reasons we cannot show it again after login.</strong>';
-        if (loginCheckboxLabel) loginCheckboxLabel.innerText = "Have you saved your account number? I confirm that I've saved my account number.";
-        if (loginAccLabel) loginAccLabel.innerText = "Account number";
-        if (loginSubmitBtn) loginSubmitBtn.innerText = "LOG IN";
-      }
     }
 
     function toggleBannerCurrencyDropdown(event) {
@@ -732,7 +636,7 @@
       const dropdownSubTime = document.getElementById('dropdownSubTime');
       const dropdownAssignedName = document.getElementById('dropdownAssignedName');
 
-      const logoutText = currentLang === 'ru' ? 'Выйти' : 'Log out';
+      const logoutText = 'Log out';
 
       if (isLoggedIn) {
         authContainer.innerHTML = `
@@ -747,7 +651,7 @@
         dropdownSubTime.innerText = timeText;
         dropdownAssignedName.innerText = assignedName;
       } else {
-        const loginText = currentLang === 'ru' ? 'Войти' : 'Log in';
+        const loginText = 'Log in';
         authContainer.innerHTML = `
           <button onclick="openLoginPage(event)" class="px-5 py-2 rounded-full bg-white text-black font-bubble font-bold text-xs sm:text-sm btn-spring" id="loginBtnText">
             ${loginText}
@@ -799,7 +703,6 @@
         if (toggle) toggle.checked = true;
       }
 
-      applyTranslations();
       checkAndUpdateSubscriptionUI();
     });
   </script>
