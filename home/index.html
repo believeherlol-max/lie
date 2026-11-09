@@ -602,7 +602,7 @@
             <a href="#" onclick="showHomeView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHome">Главная</a>
             <a href="#" onclick="showDashboardView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navDashboard">Дашборд</a>
             <a href="#" onclick="showHelpView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHelp">Помощь</a>
-            <a href="https://discord.gg/EFXYDbqQNR" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-white transition-colors duration-200 inline-block">Discord</a>
+            <a href="http://lie.lat/support/" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navSupport">Поддержка</a>
           </div>
 
           <!-- Right Side Controls -->
@@ -943,7 +943,7 @@
         <!-- Clean Dropdown Selection -->
         <div class="relative">
           <button onclick="toggleCryptoDropdown(event)" id="selectedCryptoBtn" class="bg-[#0a0a0c] border border-white/15 rounded-xl px-4 py-2.5 flex items-center gap-2.5 text-white text-xs font-bold hover:border-white/30 transition-colors font-bubble">
-            <img id="selectedCryptoLogo" src="https://imgs.search.brave.com/29v5OIDRnOzVyCYaFQoMOPCMxdlKC1iFZfXmmzI-9ug/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9ldGhlcmV1/bS1ldGgtbG9nby5w/bmc" alt="" class="w-4 h-4 object-contain rounded-full" />
+            <img id="selectedCryptoLogo" src="https://imgs.search.brave.com/29v5OIDRnOzVyCYaFQoMOPCMxdlKC1iFZfXmmzI-9ug/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly/jcnlw/dG9sb2gosy5jYy9s/b2dvcy9ldGhlcmV1/bS1ldGgtbG9nby5w/bmc" alt="" class="w-4 h-4 object-contain rounded-full" />
             <span id="selectedCryptoName">Ethereum</span>
             <i class="fa-solid fa-chevron-down text-gray-400 text-[10px]"></i>
           </button>
@@ -1256,6 +1256,7 @@
       const navHome = document.getElementById('navHome');
       const navDashboard = document.getElementById('navDashboard');
       const navHelp = document.getElementById('navHelp');
+      const navSupport = document.getElementById('navSupport');
       const setLightModeLabel = document.getElementById('setLightModeLabel');
       const dropdownPaidUntilLabel = document.getElementById('dropdownPaidUntilLabel');
       const footerPaidUntilLabel = document.getElementById('footerPaidUntilLabel');
@@ -1370,6 +1371,7 @@
         if (navHome) navHome.innerText = "Главная";
         if (navDashboard) navDashboard.innerText = "Дашборд";
         if (navHelp) navHelp.innerText = "Помощь";
+        if (navSupport) navSupport.innerText = "Поддержка";
         if (setLightModeLabel) setLightModeLabel.innerText = "Светлая тема";
         if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Оплачено до";
         if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Оплачено до";
@@ -1481,6 +1483,7 @@
         if (navHome) navHome.innerText = "Home";
         if (navDashboard) navDashboard.innerText = "Dashboard";
         if (navHelp) navHelp.innerText = "Help";
+        if (navSupport) navSupport.innerText = "Support";
         if (setLightModeLabel) setLightModeLabel.innerText = "Light Mode";
         if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Paid until";
         if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Paid until";
