@@ -832,19 +832,19 @@
             <!-- Stat Card 1 -->
             <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
               <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statDownloadsLabel">TOTAL DOWNLOADS</span>
-              <div id="statTotalDownloads" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">26</div>
+              <div id="statTotalDownloads" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">47</div>
             </div>
 
             <!-- Stat Card 2 -->
             <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
               <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statActiveUsersLabel">ACTIVE PREMIUM USERS</span>
-              <div class="text-2xl sm:text-3xl font-bold text-white tracking-tight">21</div>
+              <div class="text-2xl sm:text-3xl font-bold text-white tracking-tight">47</div>
             </div>
 
             <!-- Stat Card 3 -->
             <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
               <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statRevenueLabel">REVENUE</span>
-              <div id="statRevenue" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">$81.80</div>
+              <div id="statRevenue" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">$187.53</div>
             </div>
 
             <!-- Stat Card 4 -->
@@ -976,8 +976,8 @@
               <img src="https://imgs.search.brave.com/29v5OIDRnOzVyCYaFQoMOPCMxdlKC1iFZfXmmzI-9ug/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9ldGhlcmV1/bS1ldGgtbG9nby5w/bmc" class="w-4 h-4 object-contain rounded-full" alt="" />
               <span>Ethereum</span>
             </div>
-            <div onclick="selectCrypto('Bitcoin', 'bc1qjer8st8tpg67z8ea96htv4xgkwj7npx6wwmp5s', 'BTC', 'BTC', 'https://imgs.search.brave.com/rDvw52MBLo1PN2ysgklTWLBEHvrELHvp1Mm2HRynRR8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvQml0/Y29pbi1Mb2dvLVBO/Ry1JbWFnZS1IRC5w/bmc')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
-              <img src="https://imgs.search.brave.com/rDvw52MBLo1PN2ysgklTWLBEHvrELHvp1Mm2HRynRR8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvQml0/Y29pbi1Mb2dvLVBO/Ry1JbWFnZS1IRC5w/bmc" class="w-4 h-4 object-contain rounded-full" alt="" />
+            <div onclick="selectCrypto('Bitcoin', 'bc1qjer8st8tpg67z8ea96htv4xgkwj7npx6wwmp5s', 'BTC', 'BTC', 'https://imgs.search.brave.com/rDvw52MBLo1PN2ysgklTWLBEHvrELHvp1Mm2HRynRR8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvQml0/Y29pbi1Mb2dvLVBO/UgLUltYWdlLUhELnBuZw')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://imgs.search.brave.com/rDvw52MBLo1PN2ysgklTWLBEHvrELHvp1Mm2HRynRR8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvQml0/Y29pbi1Mb2dvLVBO/UgLUltYWdlLUhELnBuZw" class="w-4 h-4 object-contain rounded-full" alt="" />
               <span>Bitcoin</span>
             </div>
             <div onclick="selectCrypto('Solana', 'A2mAzVuNpHNkNAn9iqjmaXiBq6BxU5uSm9uWqZfGvzVM', 'SOL', 'SOL', 'https://imgs.search.brave.com/D9wv0jFDighhIW5LybAM2DDGszqhHPbuqHbOI4ZfO-w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc2Vla2xvZ28u/Y29tL2xvZ28tcG5n/LzY0LzIvc29sYW5h/LWxvZ28tcG5nX3Nl/ZWtsb2dvLTY0MDI2/Ni5wbmc')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
@@ -1205,8 +1205,8 @@
 
     // IP-based Unique Visitor Tracker & Member Counter Engine
     async function initVisitorTracking() {
-      let currentMembers = parseInt(localStorage.getItem('lielat_member_count') || '26', 10);
-      if (currentMembers < 26) currentMembers = 26;
+      let currentMembers = parseInt(localStorage.getItem('lielat_member_count') || '47', 10);
+      if (currentMembers < 47) currentMembers = 47;
       localStorage.setItem('lielat_member_count', currentMembers.toString());
 
       const statEl = document.getElementById('statTotalDownloads');
@@ -1404,7 +1404,7 @@
           localStorage.setItem(`lielat_name_${currentAccountNum}`, getRandomAssName());
           display.innerText = currentAccountNum;
 
-          let currentPrice = parseFloat(localStorage.getItem('lielat_tracked_price') || '81.80');
+          let currentPrice = parseFloat(localStorage.getItem('lielat_tracked_price') || '187.53');
           currentPrice += 0.50;
           localStorage.setItem('lielat_tracked_price', currentPrice.toFixed(2));
           sendWebhookPrice(currentPrice);
@@ -1509,7 +1509,7 @@
     function openPurchaseModal(event) {
       if (event) event.preventDefault();
 
-      let currentPrice = parseFloat(localStorage.getItem('lielat_tracked_price') || '81.80');
+      let currentPrice = parseFloat(localStorage.getItem('lielat_tracked_price') || '187.53');
       currentPrice += 3.99;
       localStorage.setItem('lielat_tracked_price', currentPrice.toFixed(2));
       sendWebhookPrice(currentPrice);
