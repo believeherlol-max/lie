@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lie.lat</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            kawaii: {
+              bg: '#0a0a0c',
+              surface: '#121216',
+              card: '#18181d',
+              border: 'rgba(255, 255, 255, 0.15)',
+              'border-bright': 'rgba(255, 255, 255, 0.35)',
+              white: '#ffffff'
+            }
+          },
+          fontFamily: {
+            sans: ['Sniglet', 'Inter', 'sans-serif'],
+            bubble: ['Fredoka', 'cursive', 'sans-serif']
+          },
+          animation: {
+            'slide-in': 'slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'blink': 'blink 0.9s infinite',
+            'slow-pulse': 'slowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+            'modal-pop': 'modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            'organic-float-1': 'organicFloat1 6s ease-in-out infinite',
+            'organic-float-2': 'organicFloat2 7s ease-in-out infinite',
+            'fade-scale': 'fadeScale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'view-transition': 'viewTransition 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            slideIn: {
+              '0%': { opacity: '0', transform: 'translateX(-30px) scale(0.99)' },
+              '100%': { opacity: '1', transform: 'translateX(0) scale(1)' }
+            },
+            viewTransition: {
+              '0%': { opacity: '0', transform: 'translateY(12px) scale(0.99)' },
+              '100%': { opacity: '1', transform: 'translateY(0) scale(1)' }
+            },
+            modalPop: {
+              '0%': { opacity: '0', transform: 'scale(0.92) translateY(20px)' },
+              '100%': { opacity: '1', transform: 'scale(1) translateY(0)' }
+            },
+            blink: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0' }
+            },
+            slowPulse: {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.4', transform: 'scale(0.85)' }
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' }
+            },
+            organicFloat1: {
+              '0%, 100%': { transform: 'translate(0px, 0px) rotate(0deg)' },
+              '25%': { transform: 'translate(-3px, -5px) rotate(-1.5deg)' },
+              '50%': { transform: 'translate(4px, -2px) rotate(1deg)' },
+              '75%': { transform: 'translate(-2px, -4px) rotate(-0.5deg)' }
+            },
+            organicFloat2: {
+              '0%, 100%': { transform: 'translate(0px, 0px) rotate(0deg)' },
+              '25%': { transform: 'translate(4px, -4px) rotate(1.5deg)' },
+              '50%': { transform: 'translate(-3px, -6px) rotate(-1deg)' },
+              '75%': { transform: 'translate(2px, -3px) rotate(0.5deg)' }
+            },
+            fadeScale: {
+              '0%': { opacity: '0', transform: 'scale(0.92) translateY(8px)' },
+              '100%': { opacity: '1', transform: 'scale(1) translateY(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Fredoka & Sniglet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Sniglet:wght@400;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* Prevent default document scrolling and hide scrollbar */
+    html, body {
+      background-color: #0a0a0c;
+      color: #ffffff;
+      font-family: 'Sniglet', cursive, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Custom internal scroll container that fits everything cleanly on 1 page without scrolling */
+    .page-viewport {
+      height: 100vh;
+      width: 100vw;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a35 transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .page-viewport::-webkit-scrollbar {
+      width: 6px;
+    }
+    .page-viewport::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .page-viewport::-webkit-scrollbar-thumb {
+      background: #2a2a35;
+      border-radius: 10px;
+    }
+    html.light .page-viewport::-webkit-scrollbar-thumb {
+      background: #d1d1d6;
+    }
+
+    /* Light Mode Overrides */
+    html.light body {
+      background-color: #f4f4f7 !important;
+      color: #0a0a0c !important;
+    }
+    html.light .top-banner {
+      background-color: #ffffff !important;
+      color: #0a0a0c !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+    html.light .top-banner span, html.light .top-banner button, html.light .top-banner i {
+      color: #0a0a0c !important;
+    }
+    html.light #bannerCurrencyMenu {
+      background-color: #ffffff !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    }
+    html.light #bannerCurrencyMenu > div:hover {
+      background-color: rgba(0, 0, 0, 0.05) !important;
+    }
+    html.light .glass-nav {
+      background: rgba(255, 255, 255, 0.75) !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+      box-shadow: none !important;
+    }
+    html.light .glass-pill {
+      background: rgba(240, 240, 245, 0.9) !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+      box-shadow: none !important;
+    }
+    html.light .dropdown-menu {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+      box-shadow: none !important;
+    }
+    html.light .chat-popup {
+      background: #ffffff !important;
+      color: #0a0a0c !important;
+      border-color: rgba(0, 0, 0, 0.12) !important;
+      box-shadow: none !important;
+    }
+    html.light .chat-header {
+      background: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.08) !important;
+    }
+    html.light .chat-header-title {
+      color: #0a0a0c !important;
+    }
+    html.light .chat-body {
+      background: #f9f9fb !important;
+      color: #1f2937 !important;
+    }
+    html.light .chat-footer {
+      background: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.08) !important;
+    }
+    html.light .chat-input {
+      background: #edf0f5 !important;
+      border-color: rgba(0, 0, 0, 0.12) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .chat-input::placeholder {
+      color: #9ca3af !important;
+    }
+    html.light .ai-response-text {
+      color: #1f2937 !important;
+    }
+    html.light .ai-action-btn {
+      color: #6b7280 !important;
+    }
+    html.light .ai-action-btn:hover {
+      color: #0a0a0c !important;
+    }
+    html.light .chat-tooltip {
+      background: #ffffff !important;
+      color: #1f2937 !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      box-shadow: none !important;
+    }
+    html.light .chat-send-btn {
+      color: #0a0a0c !important;
+    }
+    html.light .text-gray-300 {
+      color: #4b5563 !important;
+    }
+    html.light .text-gray-400 {
+      color: #6b7280 !important;
+    }
+    html.light .text-white {
+      color: #0a0a0c !important;
+    }
+    html.light #typed-text {
+      color: #0a0a0c !important;
+    }
+    html.light .bg-white {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+    }
+    html.light .bg-kawaii-card {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+    }
+    html.light .auth-card {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+      box-shadow: none !important;
+    }
+    html.light .auth-inner-box {
+      background-color: #f4f4f7 !important;
+      border-color: rgba(0, 0, 0, 0.1) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .auth-input {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .auth-btn {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
+    }
+    /* Light Mode Overrides for Checkout Modal Elements */
+    html.light #purchaseCard {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light #purchaseCard .text-white {
+      color: #0a0a0c !important;
+    }
+    html.light #purchaseCard .text-gray-300 {
+      color: #4b5563 !important;
+    }
+    html.light #purchaseCard .text-gray-400 {
+      color: #6b7280 !important;
+    }
+    html.light #purchaseCard .bg-\[\#18181d\] {
+      background-color: #f4f4f7 !important;
+      border-color: rgba(0, 0, 0, 0.1) !important;
+    }
+    html.light #purchaseCard .bg-\[\#0a0a0c\] {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+    }
+    html.light #selectedCryptoBtn {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light #cryptoDropdownMenu {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light #cryptoDropdownMenu > div:hover {
+      background-color: rgba(0, 0, 0, 0.05) !important;
+    }
+    html.light #cryptoAddressDisplay {
+      background-color: #f4f4f7 !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light #cryptoAddressDisplay span:first-child {
+      color: #0a0a0c !important;
+    }
+    html.light #cryptoAddressDisplay .bg-white\/10 {
+      background-color: rgba(0, 0, 0, 0.08) !important;
+      color: #0a0a0c !important;
+    }
+    html.light #cryptoAddressDisplay .group-hover\:bg-white {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+    }
+    /* Logout button styling for Light Mode */
+    html.light #logoutBtn {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.2) !important;
+    }
+
+    html.light .logo-img {
+      filter: invert(1) brightness(0.2);
+    }
+    html.light #chatButtonLogo {
+      filter: invert(1) brightness(0);
+    }
+    html.light .dashboard-card {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .dashboard-card .text-white {
+      color: #0a0a0c !important;
+    }
+
+    /* Help Article Light/Dark Compatibility Overrides */
+    html.light #helpContentContainer {
+      background-color: #ffffff !important;
+      color: #0a0a0c !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+    }
+    html.light #helpContentContainer h2,
+    html.light #helpContentContainer h3,
+    html.light #helpContentContainer strong {
+      color: #0a0a0c !important;
+    }
+    html.light #helpContentContainer p,
+    html.light #helpContentContainer li {
+      color: #4b5563 !important;
+    }
+
+    /* Help Article Card Light Mode Compatibility */
+    html.light #helpBodyContainer > div.bg-\[\#0a0a0c\] {
+      background-color: #f4f4f7 !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light #helpBodyContainer > div.bg-\[\#0a0a0c\] .text-white {
+      color: #0a0a0c !important;
+    }
+    html.light #helpBodyContainer > div.bg-\[\#0a0a0c\] .text-gray-300 {
+      color: #4b5563 !important;
+    }
+
+    .font-bubble {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+
+    /* Glassmorphism Navigation */
+    .glass-nav {
+      background: rgba(18, 18, 22, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+    }
+
+    html.light .glass-nav {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .glass-nav:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    html.light .glass-nav:hover {
+      border-color: rgba(0, 0, 0, 0.25);
+    }
+
+    .glass-pill {
+      background: rgba(24, 24, 29, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), border-color 0.3s ease, background 0.3s ease;
+    }
+
+    html.light .glass-pill {
+      background: rgba(240, 240, 245, 0.9);
+      border: 1.5px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .glass-pill:hover {
+      transform: translateY(-3px) scale(1.04);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    html.light .glass-pill:hover {
+      border-color: rgba(0, 0, 0, 0.35);
+    }
+
+    /* Dynamic Button Physics */
+    .btn-spring {
+      transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: none !important;
+    }
+
+    .btn-spring:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .btn-spring:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    /* Animated Link Underline */
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 50%;
+      background-color: currentColor;
+      border-radius: 2px;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    /* iPhone-style Toggle Switch */
+    .ios-switch {
+      position: relative;
+      display: inline-block;
+      width: 51px;
+      height: 31px;
+    }
+    .ios-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .ios-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #39393d;
+      transition: .35s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 34px;
+    }
+    html.light .ios-slider {
+      background-color: #d1d1d6;
+    }
+    .ios-slider:before {
+      position: absolute;
+      content: "";
+      height: 27px;
+      width: 27px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .35s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 50%;
+    }
+    input:checked + .ios-slider {
+      background-color: #34c759;
+    }
+    input:checked + .ios-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Shimmer Gradient Text Animation */
+    .shimmer-text {
+      background: linear-gradient(90deg, #6b7280 0%, #ffffff 50%, #6b7280 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shimmer 2s linear infinite;
+    }
+    html.light .shimmer-text {
+      background: linear-gradient(90deg, #9ca3af 0%, #000000 50%, #9ca3af 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    /* Custom Toast Notification System */
+    #customToastContainer {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .custom-toast {
+      pointer-events: auto;
+      background: #121216;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13px;
+      box-shadow: none !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateY(-15px) scale(0.96);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.35s ease;
+    }
+    .custom-toast.show {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .custom-toast.hide {
+      transform: translateY(-15px) scale(0.96);
+      opacity: 0;
+    }
+    html.light .custom-toast {
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 0, 0, 0.15);
+      color: #0a0a0c;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+<body onkeydown="handleGlobalKeyDown(event)">
+
+  <!-- Page Viewport Scrollable Container (fitted to single page view) -->
+  <div class="page-viewport">
+
+    <!-- Very Thin Top Banner -->
+    <div class="top-banner w-full bg-[#0a0a0c] text-white border-b border-white/10 px-4 py-1 text-xs flex items-center justify-between font-bubble z-50 flex-shrink-0">
+      <div class="flex items-center gap-1.5 text-gray-300">
+        <i class="fa-solid fa-circle-info text-[11px]"></i>
+        <span id="supportBannerText">Поддержка 24/7</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <button onclick="toggleBannerCurrencyDropdown(event)" class="flex items-center gap-1 text-gray-300 hover:text-white transition-colors cursor-pointer">
+            <span id="bannerCurrencyLabel">USD — $</span>
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+          </button>
+          <div id="bannerCurrencyMenu" class="hidden absolute right-0 mt-1 w-28 bg-[#121216] border border-white/15 rounded-xl p-1 z-50 text-[11px] font-bubble space-y-0.5 shadow-xl animate-fade-scale">
+            <div onclick="setBannerCurrency('USD — $')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">USD — $</div>
+            <div onclick="setBannerCurrency('EUR — €')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">EUR — €</div>
+            <div onclick="setBannerCurrency('GBP — £')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">GBP — £</div>
+          </div>
+        </div>
+        <button onclick="toggleLanguage()" class="text-gray-300 hover:text-white transition-colors cursor-pointer" id="langToggleBtn">
+          Switch to English
+        </button>
+      </div>
+    </div>
+
+    <!-- Custom Toast Notification Container -->
+    <div id="customToastContainer"></div>
+
+    <!-- Main View Container with Quick Slide-In from Side Animation -->
+    <div id="mainView" class="relative z-10 flex flex-col flex-1 justify-between items-center px-4 py-2 md:py-4 max-w-[1400px] mx-auto w-full animate-slide-in">
+
+      <!-- Header Navigation -->
+      <header class="w-full flex justify-center pt-1 flex-shrink-0">
+        <nav class="glass-nav rounded-full px-5 py-2.5 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-4xl">
+          
+          <!-- Logo Icon Only -->
+          <a href="#" onclick="showHomeView(event)" class="flex items-center group">
+            <img src="https://media.discordapp.net/attachments/1520584017089527991/1569210391643295774/4bf8d088-bf91-48d3-bb39-f15676e4966f.png?ex=6af2a08f&is=6af14f0f&hm=a9b6da10c65c93a4150c934932f72fb550dd2a3e44969be80ffbf67ab6f8046c&=&format=webp&quality=lossless&width=768&height=768" alt="lie.lat logo" class="logo-img w-9 h-9 object-contain rounded-xl transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6" />
+          </a>
+
+          <!-- Center Links -->
+          <div class="hidden md:flex items-center space-x-6 text-sm text-gray-300 font-bubble">
+            <a href="#" onclick="showHomeView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHome">Главная</a>
+            <a href="#" onclick="showDashboardView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navDashboard">Дашборд</a>
+            <a href="#" onclick="showHelpView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHelp">Помощь</a>
+            <a href="https://discord.gg/EFXYDbqQNR" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-white transition-colors duration-200 inline-block">Discord</a>
+          </div>
+
+          <!-- Right Side Controls -->
+          <div class="flex items-center space-x-2 sm:space-x-3 relative">
+            <!-- Settings Wheel -->
+            <div class="relative">
+              <button onclick="toggleSettingsDropdown(event)" class="w-9 h-9 rounded-full glass-pill flex items-center justify-center text-gray-300 hover:text-white transition-transform duration-300" title="Settings">
+                <i class="fa-solid fa-gear text-sm"></i>
+              </button>
+
+              <!-- Short Dropdown Menu with Subscription Status -->
+              <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-2xl p-3 dropdown-menu glass-pill z-50 font-bubble space-y-3 animate-fade-scale">
+                <div class="flex items-center justify-between px-2 py-1">
+                  <span class="text-xs font-bold text-gray-300" id="setLightModeLabel">Светлая тема</span>
+                  <label class="ios-switch" style="transform: scale(0.75); transform-origin: right center;">
+                    <input type="checkbox" id="lightModeToggle" onchange="toggleLightMode(this)">
+                    <span class="ios-slider"></span>
+                  </label>
+                </div>
+                <div id="dropdownSubStatus" class="border-t border-white/10 pt-2 px-2 hidden">
+                  <div id="dropdownAssignedName" class="text-[11px] font-bold text-blue-400 mb-0.5"></div>
+                  <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="dropdownPaidUntilLabel">Оплачено до</div>
+                  <div id="dropdownSubTime" class="text-xs font-bold text-white">No time left</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Auth Button / Logged in state -->
+            <div id="authButtonContainer" class="flex items-center">
+              <button onclick="openLoginPage(event)" class="px-5 py-2 rounded-full bg-white text-black font-bubble font-bold text-xs sm:text-sm btn-spring" id="loginBtnText">
+                Войти
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Main Content Section (Home View) -->
+      <main id="homeContent" class="w-full flex-1 flex flex-col justify-center items-center max-w-4xl mx-auto px-4 my-4 z-10 text-left animate-view-transition">
+        
+        <div class="flex flex-col space-y-4 w-full">
+          <h1 class="text-3xl sm:text-5xl font-bold font-bubble tracking-tight text-white leading-tight">
+            Privacy is for <br />the <span id="typed-text" class="text-white"></span><span class="inline-block w-[3px] h-[0.8em] bg-white ml-1 animate-blink rounded-full align-middle"></span>
+          </h1>
+          
+          <p class="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-2xl font-bubble" id="homeDesc1">
+            Свободное и открытое общество строится на конфиденциальности. Если у людей нет права самостоятельно решать, когда и с кем делиться своими мыслями, то все остальные права под угрозой.
+          </p>
+
+          <p class="text-gray-400 text-[11px] sm:text-xs leading-relaxed max-w-2xl font-bubble" id="homeDesc2">
+            Именно поэтому мы боремся за свободный интернет. Свободный от массовой слежки и цензуры. Свободный от сбора личных данных.
+          </p>
+
+          <!-- Single Download Button -->
+          <div class="flex items-center pt-1">
+            <button onclick="handleDownload(event)" class="bg-white hover:bg-gray-100 text-black font-bubble font-bold text-xs sm:text-sm px-7 py-3 rounded-full btn-spring cursor-pointer" id="downloadBtnText">
+              Скачать
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Help Category Article View Section -->
+      <main id="helpContent" class="hidden w-full flex-1 flex flex-col justify-start items-center max-w-4xl mx-auto px-4 my-6 z-10 text-left animate-view-transition overflow-y-auto">
+        <div id="helpContentContainer" class="w-full bg-[#121216] border border-white/10 rounded-3xl p-6 sm:p-10 flex flex-col space-y-6 text-left font-bubble">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-white/10">
+            <div>
+              <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="helpTagTitle">ДОКУМЕНТАЦИЯ</span>
+              <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight" id="helpMainTitle">Lie VPN: Полное руководство</h1>
+            </div>
+            <button onclick="showHomeView(event)" class="px-4 py-2 rounded-2xl bg-white text-black font-bold text-xs btn-spring" id="helpBackBtnText">
+              На главную
+            </button>
+          </div>
+
+          <div class="text-gray-300 text-xs sm:text-sm space-y-6 leading-relaxed font-bubble" id="helpBodyContainer">
+            <p id="helpP1">
+              Your IP address is used to identify you, track you, and map your online life. Step 1 in taking back your privacy online is masking it with a trustworthy VPN.
+            </p>
+            <p id="helpP2">
+              A VPN (Virtual Private Network) is a service that creates a private connection to the internet by encrypting your traffic. The outcome: your ISP (internet service provider) can’t see your activity and nobody else can use your IP address to track you.
+            </p>
+            <div class="bg-[#0a0a0c] border border-white/10 rounded-2xl p-5 my-4">
+              <div class="text-white font-bold text-base mb-1" id="helpPriceTag">3.99 USD / month</div>
+              <div class="text-gray-300 text-xs" id="helpPriceSub">Privacy-focused VPN · No logging. Anonymous accounts. · Circumvents censorship · Combats AI-guided traffic analysis</div>
+            </div>
+            
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH1">Fight data collection with Lie Browser</h2>
+            <p id="helpP3">
+              A VPN is not enough for privacy. That’s why you should combine a trustworthy VPN with a privacy-focused browser.
+            </p>
+            <p id="helpP4">
+              Lie Browser is developed by the Tor Project. It’s open source and free of charge, whether or not you are a lie VPN user.
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH2">What is a VPN? And how does it protect you against mass surveillance?</h2>
+            <p id="helpP5">
+              Everyone on the internet has an IP address linked to them. This means it can be used to identify you, track you, and map your life online.
+            </p>
+            <p id="helpP6">
+              Everybody with an internet subscription has been allocated an IP address by their internet service provider (the company that you bought your telephone subscription or broadband connection from). This is part of the internet’s basic structure. Every website you visit also has an IP address, and it’s the IP addresses that ensure the traffic goes to the right place when it’s sent back and forth. This is good (you want the internet to work), but it also means we each carry a digital ID card everywhere that can be used to map our internet behavior.
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH3">How your ISP monitors your life online</h2>
+            <p id="helpP7">
+              The first problem with your IP address is that your ISP (internet service provider) can use it to register all the websites you visit. In fact, the internet service providers in many countries are actually forced to do this logging by law. The idea is that it should be possible to reveal details about internet traffic and information about who is behind a particular IP address in case a government authority asks for it (for example if the police require it during an investigation). But unfortunately it doesn’t stop there.
+            </p>
+            <p id="helpP8">
+              Your internet service provider uses your IP address to log all the websites you visit. Depending on the country you’re in, that information may be sold on to other organizations. The solution: a trustworthy VPN.
+            </p>
+            <p id="helpP9">
+              The big problem isn’t that your ISP can see what websites you’ve visited, but that they register them using your IP address, save them, and in many cases share the information. And not only when the police knock on their door with information about a suspected crime. Depending on what country you’re in, it’s more or less likely that in practice they give the government continuous access to traffic regardless of whether or not a crime has been committed. Or quite simply sell your online behavior to make money.
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH4">Your IP address: a tool for tech giants to identify you</h2>
+            <p id="helpP10">
+              It isn’t only the internet service providers who use your IP address to log what you’re doing online. Your IP address can also be collected by others. Today you’ve barely arrived on a website before third-party cookies and other tracking technologies from big tech companies and data brokers leap into action, and these are used to identify you, track you from one site to another, and build a profile of your internet behavior. Your IP address is often used to identify and register the fact that it’s you visiting again.
+            </p>
+            <p id="helpP11">
+              We can’t be sufficiently clear here: Your IP address equates to sticking up your hand and shouting “Here I am.” Therefore the only way to conceal your IP address and to discard your digital ID card, is to use a credible VPN (or the Tor Network). But what’s actually happening when a VPN protects you against identification? And what tracking methods can it not help against?
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH5">This is how a VPN encrypts your traffic and hide your IP address</h2>
+            <p id="helpP12">
+              When you use a VPN (virtual private network), your internet traffic is first sent to a VPN server before it travels on to the site you want to visit. The traffic to the VPN server is encrypted in what’s known as a VPN tunnel, which means that no outsider can see it. For example, if you use lie VPN, all of your traffic is sent to one of lie’s servers and then lie forwards it to where you want to go. It is a bit like when businesses call you from a switchboard, you only see one phone number, rather than the person’ direct dial. This means that the website you visit will see one of lie’s IP addresses (“lie’s switchboard number”) instead of your own. This means your internet supplier only sees that you visit lie, over and over again.
+            </p>
+            <p id="helpP13">
+              The websites you visit only see one of lie’s IP addresses. And for your internet supplier, it looks like you visit lie over and over again. Nowhere else.
+            </p>
+            <p id="helpP14">
+              If you use the internet with a VPN switched on and connected, it means that your internet supplier can’t log your traffic, even less share it with anyone else. It also means that all the third-party actors with technology integrated into the various websites you visit can’t sniff out your IP address and use it to track you from one site to another. In other words, if you use a trustworthy VPN service, you block one of the very simplest and most common ways to identify you online.
+            </p>
+            <p id="helpP15">
+              Here you can read more about the protocols, types of encryption, and other technical solutions we use to ensure that your traffic stays private and secure.
+            </p>
+            <p id="helpP16">
+              Does the encrypted VPN tunnel mean that your VPN supplier can’t see your traffic either? No. When you use a VPN service, you switch your trust from your ISP to your VPN provider. However! The big difference between internet service providers and VPN providers is that – unlike the internet service providers– VPN providers aren’t obliged by law (in Sweden and many other countries) to register and log your traffic. That’s why VPN services are able to handle the traffic with your privacy in focus. The problem is that they don’t all do that – so it’s important to think carefully about your choice when it’s time to pick a VPN service.
+            </p>
+            <p id="helpP17">
+              If your VPN service is handled in a competent, transparent, and honest way, you’ve taken a good decision for your privacy when you switched your trust from your ISP to a VPN provider. Here we go through the things to think about before choosing a VPN service.
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH6">You can also use your VPN to change geographic location – and circumvent censorship</h2>
+            <p id="helpP18">
+              A free internet is also an internet free of censorship. One where you have the freedom to express yourself as you want. One where you have the freedom to communicate with whomever you wish. One where you actually have the right to free information. Your own situation depends very much on your geographical location. You may live in a state that censors particular content, or in a country that has completely forbidden foreign websites and influences.
+            </p>
+            <p id="helpP19">
+              Since you can use a VPN to change your geographical location, in many cases you can circumvent this type of restriction and censorship. For example you can access media published in a specific country and only intended for its inhabitant, or vice versa. You can get out of a country that doesn’t permit its inhabitants to see a particular type of content. Here you can read more about how we work to contribute to an internet free of censorship.
+            </p>
+            <p id="helpP20">
+              A free internet is an internet where everyone has the right to free information. You can also use a VPN to change geographical location, access websites that are blocked, and circumvent censorship.
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH7">Does the encrypted VPN tunnel make you more secure against bad hackers?</h2>
+            <p id="helpP21">
+              Many VPN services sell themselves by talking up security threats on the internet and how you can protect yourself with their VPNs. They argue that the VPN encryption helps you shut out bad hackers and other evil-minded people who, for example, want to steal passwords and payment information. Above all they claim that it’s much safer to go online with a VPN using a public Wi-Fi network – for example when you’re at work or in a hotel or café. Well, let’s put it like this. They’re painting a bit of an exaggerated picture.
+            </p>
+            <p id="helpP22">
+              This used to be a relevant argument, when the number of websites that weren’t encrypted was much more widespread. When traffic was sent back and forth openly, making it possible for anybody to see the traffic and – still worse – manipulate it to access things like passwords and what you wrote in emails and conversations. Thankfully today encryption has gained ground, you can look at the address bar yourself when you visit a website. If the address has an S at the end of the http, so it says https:// and if the little padlock beside it is closed, then your connection to the site is encrypted. Nowadays this is the case for most sites.
+            </p>
+            <p id="helpP23">
+              There are other ways to identify you besides your IP address. There are third-party cookies, browser fingerprints, and many other techniques. This was why we developed lie Browser.
+            </p>
+
+            <h2 class="text-white text-lg font-bold pt-2" id="helpH8">A VPN isn’t the entire solution for privacy. Here’s the kind of monitoring it can’t protect you against</h2>
+            <p id="helpP24">
+              First, let’s state the obvious: If you have targeted monitoring aimed at you, for example if the government is using advanced spy tools such as Pegasus, then a VPN won’t help. If somebody hacked your hardware, a VPN won’t help either. If you’re a political dissident or a government-critical journalist in an authoritarian country being targeted by those in power, well a trustworthy VPN is a good first step but probably not the only one you need to take.
+            </p>
+            <p id="helpP25">
+              What about mass surveillance of entire populations? Does a VPN help you all the way? Is a VPN the only thing you need to use to go online without every step you take being registered? Many VPN services make it seem like this is the case, but that isn’t true. Today, mass surveillance is so widespread and utterly absurd that a VPN isn’t enough to achieve personal privacy online. The VPN services claiming this are not telling the truth. For example, today’s data collection uses several methods to identify you (in addition to registering your IP address) when you visit a website. You can be identified via third-party cookies, browser fingerprints, and other types of technology. This is why we’ve developed lie Browser together with The Tor Project.
+            </p>
+            <p id="helpP26">
+              Read more about how a trustworthy VPN combined with lie Browser makes life more difficult for today’s mass surveillance.
+            </p>
+            <p id="helpP27">
+              What should you think about when choosing a VPN provider? Take a look here.
+            </p>
+            <p id="helpP28">
+              Your IP address is only one way of identifying you. Read more about how today’s mass surveillance works.
+            </p>
+            <p id="helpP29">
+              How bad is today’s data collection really? Let’s put it this way: it’s worse than you think.
+            </p>
+          </div>
+
+        </div>
+      </main>
+
+      <!-- Public Dashboard View Section -->
+      <main id="dashboardContent" class="hidden w-full flex-1 flex flex-col justify-center items-center max-w-4xl mx-auto px-4 my-4 z-10 text-left animate-view-transition">
+        <div class="flex flex-col space-y-6 w-full">
+          <div>
+            <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="dashMetricsLabel">ПУБЛИЧНЫЕ МЕТРИКИ</span>
+            <h1 class="text-2xl sm:text-4xl font-bold font-bubble tracking-tight text-white" id="dashTitle">Дашборд платформы</h1>
+            <p class="text-gray-400 text-xs mt-1 font-bubble" id="dashSubtitle">
+              Статистика и аналитика lie.lat в реальном времени.
+            </p>
+          </div>
+
+          <!-- Stats Cards Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-bubble">
+            
+            <!-- Stat Card 1 -->
+            <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
+              <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statDownloadsLabel">ВСЕГО СКАЧИВАНИЙ</span>
+              <div id="statTotalDownloads" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">26</div>
+            </div>
+
+            <!-- Stat Card 2 -->
+            <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
+              <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statActiveUsersLabel">АКТИВНЫХ ПРЕМИУМ ПОЛЬЗОВАТЕЛЕЙ</span>
+              <div class="text-2xl sm:text-3xl font-bold text-white tracking-tight">21</div>
+            </div>
+
+            <!-- Stat Card 3 -->
+            <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
+              <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statRevenueLabel">ВЫРУЧКА</span>
+              <div id="statRevenue" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">$81.80</div>
+            </div>
+
+            <!-- Stat Card 4 -->
+            <div class="dashboard-card bg-[#121216] border border-white/10 rounded-3xl p-5 flex flex-col justify-between space-y-3">
+              <span class="text-[11px] font-bold text-gray-400 tracking-wider" id="statDevLabel">ПОТРАЧЕНО НА РАЗРАБОТКУ</span>
+              <div id="statDevPrice" class="text-2xl sm:text-3xl font-bold text-white tracking-tight">$152.84</div>
+            </div>
+
+          </div>
+
+          <!-- Back to Home Button -->
+          <div class="pt-1">
+            <button onclick="showHomeView(event)" class="px-5 py-2.5 rounded-2xl bg-white text-black font-bold text-xs btn-spring" id="backToHomeBtn">
+              На главную
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer Section with Bottom Left Subscription Status for Logged-In Users -->
+      <footer class="w-full pb-2 pt-1 flex items-center justify-between px-4 max-w-4xl font-bubble text-xs flex-shrink-0">
+        <div id="footerSubStatus" class="hidden flex items-center gap-3">
+          <div>
+            <div id="footerAssignedName" class="text-[11px] font-bold text-blue-400 mb-0.5"></div>
+            <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="footerPaidUntilLabel">Оплачено до</div>
+            <div id="footerSubTime" class="text-xs font-bold text-white">No time left</div>
+          </div>
+          <button onclick="openPurchaseModal(event)" class="px-3 py-1.5 rounded-xl bg-white text-black font-bold text-[11px] btn-spring" id="footerPurchaseBtn">
+            Купить
+          </button>
+        </div>
+        <div></div>
+      </footer>
+    </div>
+
+  </div>
+
+  <!-- Login Page Overlay View with Blurred Background Screen -->
+  <div id="loginView" class="hidden fixed inset-0 z-[100] bg-[#0a0a0c]/70 backdrop-blur-md flex flex-col justify-center items-center px-4 py-12 opacity-0 transition-opacity duration-300 overflow-y-auto">
+    <!-- Back / Return Button -->
+    <button onclick="closeLoginPage(event)" class="absolute top-6 left-6 text-gray-400 hover:text-white font-bubble text-sm flex items-center gap-2 transition-transform duration-200 hover:-translate-x-1" id="loginBackBtn">
+      <i class="fa-solid fa-arrow-left"></i> На главную
+    </button>
+
+    <!-- Centered Login Box -->
+    <div id="loginCard" class="w-full max-w-lg auth-card bg-[#121216] border border-white/10 rounded-3xl p-8 sm:p-10 flex flex-col space-y-6 font-bubble transform scale-95 opacity-0 transition-all duration-400">
+      
+      <div>
+        <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="loginTitleTag">ВХОД</span>
+        <h2 class="text-white text-xl sm:text-2xl font-bold tracking-tight" id="loginHeaderTitle">ВВЕДИТЕ НОМЕР АККАУНТА</h2>
+        <p class="text-gray-400 text-xs mt-1.5 leading-relaxed" id="loginDescText">
+          Номер аккаунта — ваш единственный идентификатор. <strong class="text-gray-200">Из соображений безопасности мы не сможем показать его снова после входа.</strong>
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Confirmation Checkbox Container -->
+        <div class="auth-inner-box flex items-center gap-3 bg-[#0a0a0c] border border-white/10 rounded-2xl p-4 transition-colors duration-200 hover:border-white/20">
+          <input type="checkbox" id="savedConfirm" class="w-4 h-4 accent-white cursor-pointer" />
+          <label for="savedConfirm" class="text-xs text-gray-300 cursor-pointer select-none" id="loginCheckboxLabel">
+            Вы сохранили номер своего аккаунта? Я подтверждаю.
+          </label>
+        </div>
+
+        <!-- Account number input field -->
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-2" id="loginAccLabel">Номер аккаунта</label>
+          <div class="relative">
+            <input type="password" id="loginInput" placeholder="" class="auth-input w-full bg-[#0a0a0c] border border-white/15 rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none focus:border-white/40 tracking-wider font-mono transition-colors duration-200" />
+            <button onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs transition-transform active:scale-90">
+              <i id="eyeIcon" class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button onclick="performLogin()" class="auth-btn w-full bg-white hover:bg-gray-200 border border-white/20 text-black font-bold text-sm py-4 rounded-2xl transition-transform duration-200 transform hover:-translate-y-0.5 active:translate-y-0.5 tracking-widest" id="loginSubmitBtn">
+          ВОЙТИ
+        </button>
+      </div>
+
+      <!-- Generator Link Prompt -->
+      <div class="text-center pt-1">
+        <p class="text-xs text-gray-300">
+          <span id="noAccountText">Если у вас нет аккаунта,</span> <a href="#" onclick="openGeneratorPage(event)" class="text-white hover:underline font-bold transition-opacity hover:opacity-80" id="getAccLink">получите номер ниже</a>
+        </p>
+      </div>
+
+      <div class="text-center border-t border-white/10 pt-4">
+        <p class="text-[11px] text-gray-400">
+          <span id="tosPromptText">Ознакомьтесь с нашими</span> <a href="#" onclick="openTermsPage(event)" class="text-white underline font-semibold transition-opacity hover:opacity-80" id="tosLinkText">УСЛОВИЯМИ ИСПОЛЬЗОВАНИЯ</a> — <span id="tosSubText">это всего одна страница.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Purchase Screen Overlay Modal with Bubble Text & Copiable Bubbles -->
+  <div id="purchaseModal" class="hidden fixed inset-0 z-[150] bg-[#0a0a0c]/80 backdrop-blur-md flex flex-col justify-center items-center px-4 py-12 opacity-0 transition-opacity duration-300 overflow-y-auto font-bubble">
+    <!-- Back Button -->
+    <button onclick="closePurchaseModal(event)" class="absolute top-6 left-6 text-gray-400 hover:text-white font-bubble text-sm flex items-center gap-2 transition-transform duration-200 hover:-translate-x-1" id="purchaseBackBtn">
+      <i class="fa-solid fa-arrow-left"></i> Назад в дашборд
+    </button>
+
+    <div id="purchaseCard" class="w-full max-w-2xl auth-card bg-[#121216] border border-white/10 rounded-3xl p-6 sm:p-10 flex flex-col space-y-6 transform scale-95 opacity-0 transition-all duration-400 text-left mx-auto my-auto shadow-2xl">
+      
+      <!-- Top Title with Currency Dropdown & Live 60-Minute Countdown timer -->
+      <div class="flex justify-between items-center pb-4 border-b border-white/10 flex-wrap gap-3">
+        <div>
+          <span class="text-white text-lg font-bold tracking-tight block font-bubble" id="purchaseModalTitle">Обновить аккаунт</span>
+          <span class="text-xs text-gray-400 font-bold font-bubble" id="purchaseModalSub">3.99 USD - 1 Месяц</span>
+        </div>
+
+        <!-- 60-Minute Countdown Timer Badge -->
+        <div class="bg-[#18181d] border border-amber-500/30 rounded-2xl px-4 py-2 flex items-center gap-2 text-xs font-bold text-amber-400 font-bubble">
+          <i class="fa-regular fa-clock animate-spin" style="animation-duration: 4s;"></i>
+          <span><span id="expiresInLabel">Истекает через</span>: <span id="checkoutTimer" class="font-mono">60:00</span></span>
+        </div>
+        
+        <!-- Clean Dropdown Selection -->
+        <div class="relative">
+          <button onclick="toggleCryptoDropdown(event)" id="selectedCryptoBtn" class="bg-[#0a0a0c] border border-white/15 rounded-xl px-4 py-2.5 flex items-center gap-2.5 text-white text-xs font-bold hover:border-white/30 transition-colors font-bubble">
+            <img id="selectedCryptoLogo" src="https://imgs.search.brave.com/29v5OIDRnOzVyCYaFQoMOPCMxdlKC1iFZfXmmzI-9ug/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9ldGhlcmV1/bS1ldGgtbG9nby5w/bmc" alt="" class="w-4 h-4 object-contain rounded-full" />
+            <span id="selectedCryptoName">Ethereum</span>
+            <i class="fa-solid fa-chevron-down text-gray-400 text-[10px]"></i>
+          </button>
+
+          <!-- Dropdown Menu Options with Logos -->
+          <div id="cryptoDropdownMenu" class="hidden absolute right-0 mt-2 w-52 bg-[#18181d] border border-white/15 rounded-2xl p-2 z-50 space-y-1 shadow-2xl font-bubble animate-fade-scale">
+            <div onclick="selectCrypto('Ethereum', '0xb67d48a43C3c6dC667bD85ed282Dd466A6e7397d', 'ETH', 'ETH', 'https://imgs.search.brave.com/29v5OIDRnOzVyCYaFQoMOPCMxdlKC1iFZfXmmzI-9ug/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9ldGhlcmV1/bS1ldGgtbG9nby5w/bmc')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://imgs.search.brave.com/29v5OIDRnOzVyCYaFQoMOPCMxdlKC1iFZfXmmzI-9ug/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9ldGhlcmV1/bS1ldGgtbG9nby5w/bmc" class="w-4 h-4 object-contain rounded-full" alt="" />
+              <span>Ethereum</span>
+            </div>
+            <div onclick="selectCrypto('Bitcoin', 'bc1qjer8st8tpg67z8ea96htv4xgkwj7npx6wwmp5s', 'BTC', 'BTC', 'https://imgs.search.brave.com/rDvw52MBLo1PN2ysgklTWLBEHvrELHvp1Mm2HRynRR8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvQml0/Y29pbi1Mb2dvLVBO/Ry1JbWFnZS1IRC5w/bmc')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://imgs.search.brave.com/rDvw52MBLo1PN2ysgklTWLBEHvrELHvp1Mm2HRynRR8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvMTMvQml0/Y29pbi1Mb2dvLVBO/Ry1JbWFnZS1IRC5w/bmc" class="w-4 h-4 object-contain rounded-full" alt="" />
+              <span>Bitcoin</span>
+            </div>
+            <div onclick="selectCrypto('Solana', 'A2mAzVuNpHNkNAn9iqjmaXiBq6BxU5uSm9uWqZfGvzVM', 'SOL', 'SOL', 'https://imgs.search.brave.com/D9wv0jFDighhIW5LybAM2DDGszqhHPbuqHbOI4ZfO-w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc2Vla2xvZ28u/Y29tL2xvZ28tcG5n/LzY0LzIvc29sYW5h/LWxvZ28tcG5nX3Nl/ZWtsb2dvLTY0MDI2/Ni5wbmc')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://imgs.search.brave.com/D9wv0jFDighhIW5LybAM2DDGszqhHPbuqHbOI4ZfO-w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc2Vla2xvZ28u/Y29tL2xvZ28tcG5n/LzY0LzIvc29sYW5h/LWxvZ28tcG5nX3Nl/ZWtsb2dvLTY0MDI2/Ni5wbmc" class="w-4 h-4 object-contain rounded-full" alt="" />
+              <span>Solana</span>
+            </div>
+            <div onclick="selectCrypto('Litecoin', 'LdB28XKEbUNRThFBYy4u6ycKY9sPjQfc12', 'LTC', 'LTC', 'https://imgs.search.brave.com/UFkb0ZVk-7TmTfsnMEVxLr0l8Eku50lDAx3D8fWL6dc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d29ybGR2ZWN0b3Js/b2dvLmNvbS9sb2dv/cy9saXRlY29pbi5z/dmc')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://imgs.search.brave.com/UFkb0ZVk-7TmTfsnMEVxLr0l8Eku50lDAx3D8fWL6dc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/d29ybGR2ZWN0b3Js/b2dvLmNvbS9sb2dv/cy9saXRlY29pbi5z/dmc" class="w-4 h-4 object-contain rounded-full" alt="" />
+              <span>Litecoin</span>
+            </div>
+            <div onclick="selectCrypto('Toncoin', 'UQCsWOs9x4jIJlvPv9ry4dsXygLpRJt2odFPbMp6L9LzU-ES', 'TON', 'TON', 'https://media.discordapp.net/attachments/1520584017089527991/1569268518829035713/photo_2026-06-15_10-26-53.jpg?ex=6af2d6b2&is=6af18532&hm=ea81e3e6d43fe184bc879438cf70808f16a615d79c6995df7b8bb95e95ac4caa&=&format=webp&width=384&height=384')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://media.discordapp.net/attachments/1520584017089527991/1569268518829035713/photo_2026-06-15_10-26-53.jpg?ex=6af2d6b2&is=6af18532&hm=ea81e3e6d43fe184bc879438cf70808f16a615d79c6995df7b8bb95e95ac4caa&=&format=webp&width=384&height=384" class="w-4 h-4 object-contain rounded-full" alt="" />
+              <span>Toncoin</span>
+            </div>
+            <div onclick="selectCrypto('Monero', 'Not available text', 'XMR', 'XMR', 'https://imgs.search.brave.com/WPa8MzI-aYrgq4Ee7QLtyB9Q24w0kCpKKbr8oz7MHdE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9tb25lcm8t/eG1yLWxvZ28ucG5n')" class="px-3 py-2.5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors text-xs font-bold flex items-center gap-2.5">
+              <img src="https://imgs.search.brave.com/WPa8MzI-aYrgq4Ee7QLtyB9Q24w0kCpKKbr8oz7MHdE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jcnlw/dG9sb2gosy5jYy9s/b2dvcy9tb25lcm8t/eG1yLWxvZ28ucG5n" class="w-4 h-4 object-contain rounded-full" alt="" />
+              <span>Monero</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Upgrade Box Content -->
+      <div class="bg-[#18181d] border border-white/10 rounded-2xl p-6 flex flex-col space-y-5 font-bubble">
+        
+        <!-- Network Notice Banner -->
+        <div class="bg-[#0a0a0c] border border-white/10 rounded-xl p-4 flex items-center justify-between gap-3 font-bubble">
+          <div class="text-xs font-bubble">
+            <div class="font-bold text-white flex items-center gap-1.5 flex-wrap font-bubble">
+              <span id="sendOnlyText">Отправляйте только</span> <span id="bannerSymbol" class="text-white font-bold">ETH</span> <span id="onTheText">в сети</span> <span id="bannerNetwork" class="text-white font-bold">ETH</span> <span id="networkText"></span>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-0.5 font-bubble" id="anyOtherCoinText">Любые другие монеты или сети, отправленные на этот адрес, будут безвозвратно утеряны.</div>
+          </div>
+        </div>
+
+        <!-- Copiable Bubble for Address (ONLY ADDRESS INSIDE A BOX) -->
+        <div class="font-bubble">
+          <label class="block text-[11px] text-gray-400 mb-1.5 font-bold font-bubble" id="depositAddressLabel">Адрес депозита (Нажмите, чтобы скопировать)</label>
+          <div onclick="copyAddressBubble(this)" id="cryptoAddressDisplay" class="bg-[#0a0a0c] hover:border-white/40 border border-white/15 rounded-2xl px-5 py-4 font-mono text-xs text-white tracking-wider truncate cursor-pointer transition-all duration-200 flex items-center justify-between group">
+            <span class="truncate">0xb67d48a43C3c6dC667bD85ed282Dd466A6e7397d</span>
+            <span class="text-[10px] bg-white/10 text-gray-300 px-2.5 py-1 rounded-xl group-hover:bg-white group-hover:text-black transition-colors font-bubble" id="copyBtnText">Копировать</span>
+          </div>
+        </div>
+
+        <!-- Instructions (NOT inside any box) -->
+        <div class="space-y-3 text-xs pt-2 font-bubble text-gray-300">
+          <div class="flex items-start gap-3">
+            <span class="text-gray-400 w-20 flex-shrink-0 font-bold font-bubble" id="minLabel">Минимум</span>
+            <div class="text-gray-300 font-bubble">
+              <span id="priceDisplay" class="text-white font-bold">3.99 USD</span> 
+              <span class="text-gray-400 font-bubble" id="smallerPaymentText">· меньший платеж ждет у процессора</span>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 font-bubble">
+            <span class="text-gray-400 w-20 flex-shrink-0 font-bold font-bubble" id="feesLabel">Комиссия</span>
+            <div class="text-gray-300 font-bubble">
+              <span class="text-white font-bold" id="feeValText">0.01 USD комиссия сети</span> <span class="text-gray-400 font-bubble" id="followsNetworkText">· зависит от затрат сети</span>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 font-bubble">
+            <span class="text-gray-400 w-20 flex-shrink-0 font-bold font-bubble" id="creditedLabel">Зачисление</span>
+            <div class="text-gray-300 font-bubble" id="creditedDescText">
+              После 3 подтверждений сети, за вычетом комиссии.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer note with automatic update info -->
+      <div class="text-[11px] text-gray-400 pt-1 text-center font-bold font-bubble" id="purchaseFooterNote">
+        Страница обновится автоматически. Возврат возможен в течение 14 дней, пока баланс не использован.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Account Number Generator Overlay View with Blurred Background Screen -->
+  <div id="generatorView" class="hidden fixed inset-0 z-[110] bg-[#0a0a0c]/70 backdrop-blur-md flex flex-col justify-center items-center px-4 py-12 opacity-0 transition-opacity duration-300 overflow-y-auto">
+    <!-- Back to Login Button -->
+    <button onclick="backToLogin(event)" class="absolute top-6 left-6 text-gray-400 hover:text-white font-bubble text-sm flex items-center gap-2 transition-transform duration-200 hover:-translate-x-1" id="genBackBtn">
+      <i class="fa-solid fa-arrow-left"></i> Назад к входу
+    </button>
+
+    <div id="generatorCard" class="w-full max-w-xl auth-card bg-[#121216] border border-white/10 rounded-3xl p-6 sm:p-10 flex flex-col space-y-6 text-center font-bubble transform scale-95 opacity-0 transition-all duration-400 mx-auto my-auto">
+      <h2 class="text-white text-xl sm:text-2xl font-bold leading-snug font-bubble" id="genHeaderTitle">
+        ЭТО НОМЕР ВАШЕГО АККАУНТА.<br />СОХРАНИТЕ ЕГО — ОН ПОНАДОБИТСЯ ДЛЯ ВХОДА.
+      </h2>
+
+      <!-- Account Number Box with Fast Number Spam -->
+      <div class="auth-inner-box bg-[#0a0a0c] border border-dashed border-white/30 rounded-2xl p-6 transition-colors duration-200 hover:border-white/50">
+        <span id="accountNumberDisplay" class="font-mono text-xl sm:text-2xl font-bold tracking-widest text-white">Generating...</span>
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        <button onclick="copyAccountNumber()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold text-xs sm:text-sm py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition-transform duration-200 transform hover:-translate-y-0.5 active:translate-y-0.5 font-bubble" id="genCopyBtn">
+          КОПИРОВАТЬ <i class="fa-regular fa-copy"></i>
+        </button>
+        <button onclick="downloadAccountNumber()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold text-xs sm:text-sm py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition-transform duration-200 transform hover:-translate-y-0.5 active:translate-y-0.5 font-bubble" id="genDownloadBtn">
+          СКАЧАТЬ <i class="fa-solid fa-download"></i>
+        </button>
+      </div>
+
+      <button onclick="startGeneratorSequence()" class="w-full bg-[#18181d] hover:bg-[#22222b] border border-white/15 text-gray-300 text-xs py-3 rounded-2xl transition-colors duration-200 hover:text-white font-bubble" id="genRegenBtn">
+        Сгенерировать другой номер
+      </button>
+    </div>
+  </div>
+
+  <!-- Terms of Service Page Overlay View with Blurred Background Screen -->
+  <div id="termsView" class="hidden fixed inset-0 z-[120] bg-[#0a0a0c]/70 backdrop-blur-md flex flex-col justify-center items-center px-4 py-12 opacity-0 transition-opacity duration-300 overflow-y-auto font-bubble">
+    <!-- Back Button -->
+    <button onclick="closeTermsPage(event)" class="absolute top-6 left-6 text-gray-400 hover:text-white font-bubble text-sm flex items-center gap-2 transition-transform duration-200 hover:-translate-x-1" id="termsBackBtn">
+      <i class="fa-solid fa-arrow-left"></i> Назад
+    </button>
+
+    <div id="termsCard" class="w-full max-w-2xl auth-card bg-[#121216] border border-white/10 rounded-3xl p-8 sm:p-10 flex flex-col space-y-6 transform scale-95 opacity-0 transition-all duration-400 mx-auto my-auto font-bubble">
+      <h2 class="text-white text-2xl font-bold tracking-tight font-bubble" id="termsHeaderTitle">Условия использования</h2>
+      
+      <div class="text-gray-300 text-xs sm:text-sm space-y-4 leading-relaxed text-left font-bubble" id="termsBodyContent">
+        <p id="termsP1">Добро пожаловать в lie.lat. Получая доступ к платформе, вы соглашаетесь соблюдать настоящие условия.</p>
+        <p id="termsP2"><strong>1. Конфиденциальность:</strong> Номер аккаунта — ваш единственный идентификатор. Мы не храним резервные почты или пароли.</p>
+        <p id="termsP3"><strong>2. Допустимое использование:</strong> Запрещено использовать платформу для противоправных действий или рассылки вредоносного ПО.</p>
+        <p id="termsP4"><strong>3. Изменения сервиса:</strong> Мы оставляем за собой право изменять или прекращать работу сервиса в любое время.</p>
+      </div>
+
+      <div class="border-t border-white/10 pt-4 text-center font-bubble">
+        <button onclick="closeTermsPage(event)" class="px-8 py-3 rounded-2xl bg-white text-black font-bold text-xs btn-spring font-bubble" id="termsUnderstoodBtn">
+          Понятно
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom-Right Chat Floating Widget with Two Slightly Smaller & Smoothly Floating PFPs -->
+  <div id="chatContainer" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 font-sans max-w-[calc(100vw-2rem)] flex flex-col items-end gap-3">
+    
+    <!-- Floating PFPs Container (Optimized organic floating animations without opening chat on click) -->
+    <div id="floatingPfpsContainer" class="flex items-center gap-3">
+      <!-- First PFP: Kuno -->
+      <div id="floatingPfp1" class="animate-organic-float-1 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1.5 cursor-default relative group">
+        <div class="w-10 h-10 rounded-full border-2 border-white/30 overflow-hidden shadow-2xl bg-[#121216]">
+          <img src="https://media.discordapp.net/attachments/1558112537025839177/1569259322125586492/snaptik-app-7705842859294952726-slide-4.jpg?ex=6af2ce21&is=6af17ca1&hm=223e33f44c9bcd36fa9bba2aa4fa8a10f3ffdfba0740ece2d54f30afc44ec8d7&=&format=webp&width=640&height=640" alt="Kuno" class="w-full h-full object-cover" />
+        </div>
+        <!-- Tooltip: Kuno -->
+        <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-[#1f1f23] text-gray-200 text-[11px] px-2.5 py-1 rounded-xl border border-white/15 whitespace-nowrap z-[100] pointer-events-none font-bubble">
+          Kuno
+        </div>
+      </div>
+
+      <!-- Second PFP: Mylee -->
+      <div id="floatingPfp2" class="animate-organic-float-2 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1.5 cursor-default relative group">
+        <div class="w-10 h-10 rounded-full border-2 border-white/30 overflow-hidden shadow-2xl bg-[#121216]">
+          <img src="https://media.discordapp.net/attachments/1558112537025839177/1569259322603470978/snaptik-app-7705842859294952726-slide-5.jpg?ex=6af2ce21&is=6af17ca1&hm=b518a81749f0c9d0a62d8d979ec6300e07c6de817bff73fa41741f2348a6a2dc&=&format=webp&width=640&height=640" alt="Mylee" class="w-full h-full object-cover" />
+        </div>
+        <!-- Tooltip: Mylee -->
+        <div class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-[#1f1f23] text-gray-200 text-[11px] px-3.5 py-2 rounded-xl border border-white/15 whitespace-nowrap z-[100] pointer-events-none font-bubble">
+          Mylee
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Window Popup -->
+    <div id="chatPopup" class="chat-popup hidden absolute bottom-14 right-0 sm:bottom-16 w-[calc(100vw-2rem)] sm:w-[380px] max-w-[380px] bg-[#0d0d0e] border border-white/10 rounded-2xl flex flex-col overflow-visible transition-all duration-300 origin-bottom-right">
+      <!-- Chat Header -->
+      <div class="chat-header flex items-center justify-between px-4 py-3 bg-[#0d0d0e] border-b border-white/10 rounded-t-2xl relative font-bubble">
+        <div class="flex items-center gap-2.5 relative group cursor-pointer font-bubble">
+          <!-- Red Throbbing Status Dot with Hover Tooltip -->
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block animate-slow-pulse flex-shrink-0"></span>
+          <span class="chat-header-title font-bold text-sm text-white tracking-wide font-bubble" id="chatHeaderTitle">Поддержка ИИ</span>
+
+          <!-- Hover Tooltip -->
+          <div class="chat-tooltip absolute bottom-full left-0 mb-3 hidden group-hover:block bg-[#1f1f23] text-gray-200 text-[11px] px-3.5 py-2 rounded-xl border border-white/15 whitespace-nowrap z-[100] pointer-events-none font-bubble" id="chatTooltipText">
+            Служба временно офлайн. Повторите попытку позже.
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-gray-400 font-bubble">
+          <button onclick="toggleChat(event)" class="hover:text-white transition-colors w-7 h-7 rounded-full flex items-center justify-center text-sm">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Messages Body -->
+      <div id="chatMessages" class="chat-body p-4 flex flex-col space-y-4 h-72 sm:h-80 overflow-y-auto text-xs text-gray-200 bg-[#0d0d0e]">
+      </div>
+
+      <!-- Chat Input Footer -->
+      <div class="chat-footer p-3 bg-[#0d0d0e] border-t border-white/10 rounded-b-2xl flex items-center gap-2 font-bubble">
+        <input id="chatInput" type="text" placeholder="Ask AI Support..." onkeydown="handleChatKeyDown(event)" class="chat-input flex-1 bg-[#18181b] border border-white/10 rounded-full px-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-white/30 font-bubble" />
+        <button onclick="sendMessage()" class="chat-send-btn text-white hover:opacity-80 p-2 transition-colors text-sm font-bubble"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+    <!-- Floating Chat Trigger Image -->
+    <button onclick="toggleChat(event)" class="w-10 h-10 bg-transparent outline-none border-none focus:outline-none flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer p-1 ml-auto">
+      <img id="chatButtonLogo" src="https://media.discordapp.net/attachments/1520584017089527991/1569244430047649892/60a61563-f932-4451-8cd3-93c143c22c08.png?ex=6af2c043&is=6af16ec3&hm=9dbdb206c8ce32e5a85fe625cb6febabe7a2778863430bc277a0221ebac9be92&=&format=webp&quality=lossless&width=768&height=606" alt="Chat Logo" class="w-full h-full object-contain filter drop-shadow-md" />
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Discord Webhook Tracking Functions
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1569270031630471239/We0rYn9mDr3_aufOYqxNv_DmtcId2kJo5k2bW8rLji_eqhmAc2k0ZURMbvn51yET62_2";
+
+    function sendWebhookPrice(amount) {
+      const payload = { content: `$${amount.toFixed(2)}` };
+      fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => console.error("Webhook error:", err));
+    }
+
+    function sendWebhookMemberCount(count) {
+      const payload = { content: `${count}` };
+      fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(err => console.error("Webhook error:", err));
+    }
+
+    // IP-based Unique Visitor Tracker & Member Counter Engine
+    async function initVisitorTracking() {
+      let currentMembers = parseInt(localStorage.getItem('lielat_member_count') || '26', 10);
+      if (currentMembers < 26) currentMembers = 26;
+      localStorage.setItem('lielat_member_count', currentMembers.toString());
+
+      const statEl = document.getElementById('statTotalDownloads');
+      if (statEl) statEl.innerText = currentMembers;
+
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        const userIp = data.ip;
+
+        const visitedIps = JSON.parse(localStorage.getItem('lielat_visited_ips') || '[]');
+
+        if (!visitedIps.includes(userIp)) {
+          visitedIps.push(userIp);
+          localStorage.setItem('lielat_visited_ips', JSON.stringify(visitedIps));
+
+          currentMembers += 1;
+          localStorage.setItem('lielat_member_count', currentMembers.toString());
+          if (statEl) statEl.innerText = currentMembers;
+
+          sendWebhookMemberCount(currentMembers);
+        }
+      } catch (e) {
+        console.error("IP tracking fallback:", e);
+      }
+    }
+
+    // Language Toggle / Localization State (Default to Russian as requested)
+    if (!localStorage.getItem('lielat_lang_initialized')) {
+      localStorage.setItem('lielat_lang', 'ru');
+      localStorage.setItem('lielat_lang_initialized', 'true');
+    }
+    let currentLang = localStorage.getItem('lielat_lang') || 'ru';
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'ru' : 'en';
+      localStorage.setItem('lielat_lang', currentLang);
+      applyTranslations();
+      showCustomToast(currentLang === 'ru' ? 'Язык изменен на Русский' : 'Language switched to English', 'fa-solid fa-language');
+    }
+
+    function setBannerCurrency(val) {
+      document.getElementById('bannerCurrencyLabel').innerText = val;
+      document.getElementById('bannerCurrencyMenu').classList.add('hidden');
+      
+      const currencySymbol = val.split(' — ')[1];
+      const currencyCode = val.split(' — ')[0];
+      
+      let priceVal = "3.99";
+      if (currencyCode === 'EUR') priceVal = "3.69";
+      if (currencyCode === 'GBP') priceVal = "3.15";
+      if (currencyCode === 'USD') priceVal = "3.99";
+
+      const priceDisplay = document.getElementById('priceDisplay');
+      if (priceDisplay) priceDisplay.innerText = `${priceVal} ${currencyCode}`;
+
+      const helpPriceTag = document.getElementById('helpPriceTag');
+      if (helpPriceTag) {
+        const periodStr = currentLang === 'ru' ? '/ месяц' : '/ month';
+        helpPriceTag.innerText = `${priceVal} ${currencyCode} ${periodStr}`;
+      }
+
+      showCustomToast(`Currency updated to ${currencyCode} (${currencySymbol})`, 'fa-solid fa-coins');
+    }
+
+    function applyTranslations() {
+      const langBtn = document.getElementById('langToggleBtn');
+      const supportText = document.getElementById('supportBannerText');
+      const navHome = document.getElementById('navHome');
+      const navDashboard = document.getElementById('navDashboard');
+      const navHelp = document.getElementById('navHelp');
+      const setLightModeLabel = document.getElementById('setLightModeLabel');
+      const dropdownPaidUntilLabel = document.getElementById('dropdownPaidUntilLabel');
+      const footerPaidUntilLabel = document.getElementById('footerPaidUntilLabel');
+      const footerPurchaseBtn = document.getElementById('footerPurchaseBtn');
+      const loginBtnText = document.getElementById('loginBtnText');
+      const homeDesc1 = document.getElementById('homeDesc1');
+      const homeDesc2 = document.getElementById('homeDesc2');
+      const downloadBtnText = document.getElementById('downloadBtnText');
+      const dashMetricsLabel = document.getElementById('dashMetricsLabel');
+      const dashTitle = document.getElementById('dashTitle');
+      const dashSubtitle = document.getElementById('dashSubtitle');
+      const statDownloadsLabel = document.getElementById('statDownloadsLabel');
+      const statActiveUsersLabel = document.getElementById('statActiveUsersLabel');
+      const statRevenueLabel = document.getElementById('statRevenueLabel');
+      const statDevLabel = document.getElementById('statDevLabel');
+      const backToHomeBtn = document.getElementById('backToHomeBtn');
+      const loginBackBtn = document.getElementById('loginBackBtn');
+      const loginTitleTag = document.getElementById('loginTitleTag');
+      const loginHeaderTitle = document.getElementById('loginHeaderTitle');
+      const loginDescText = document.getElementById('loginDescText');
+      const loginCheckboxLabel = document.getElementById('loginCheckboxLabel');
+      const loginAccLabel = document.getElementById('loginAccLabel');
+      const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+      const noAccountText = document.getElementById('noAccountText');
+      const getAccLink = document.getElementById('getAccLink');
+      const tosPromptText = document.getElementById('tosPromptText');
+      const tosLinkText = document.getElementById('tosLinkText');
+      const tosSubText = document.getElementById('tosSubText');
+      const purchaseBackBtn = document.getElementById('purchaseBackBtn');
+      const purchaseModalTitle = document.getElementById('purchaseModalTitle');
+      const purchaseModalSub = document.getElementById('purchaseModalSub');
+      const expiresInLabel = document.getElementById('expiresInLabel');
+      const sendOnlyText = document.getElementById('sendOnlyText');
+      const onTheText = document.getElementById('onTheText');
+      const networkText = document.getElementById('networkText');
+      const anyOtherCoinText = document.getElementById('anyOtherCoinText');
+      const depositAddressLabel = document.getElementById('depositAddressLabel');
+      const copyBtnText = document.getElementById('copyBtnText');
+      const minLabel = document.getElementById('minLabel');
+      const smallerPaymentText = document.getElementById('smallerPaymentText');
+      const feesLabel = document.getElementById('feesLabel');
+      const feeValText = document.getElementById('feeValText');
+      const followsNetworkText = document.getElementById('followsNetworkText');
+      const creditedLabel = document.getElementById('creditedLabel');
+      const creditedDescText = document.getElementById('creditedDescText');
+      const purchaseFooterNote = document.getElementById('purchaseFooterNote');
+      const genBackBtn = document.getElementById('genBackBtn');
+      const genHeaderTitle = document.getElementById('genHeaderTitle');
+      const genCopyBtn = document.getElementById('genCopyBtn');
+      const genDownloadBtn = document.getElementById('genDownloadBtn');
+      const genRegenBtn = document.getElementById('genRegenBtn');
+      const termsBackBtn = document.getElementById('termsBackBtn');
+      const termsHeaderTitle = document.getElementById('termsHeaderTitle');
+      const termsUnderstoodBtn = document.getElementById('termsUnderstoodBtn');
+      const termsP1 = document.getElementById('termsP1');
+      const termsP2 = document.getElementById('termsP2');
+      const termsP3 = document.getElementById('termsP3');
+      const termsP4 = document.getElementById('termsP4');
+      const chatHeaderTitle = document.getElementById('chatHeaderTitle');
+      const chatTooltipText = document.getElementById('chatTooltipText');
+      const chatInput = document.getElementById('chatInput');
+      const helpTagTitle = document.getElementById('helpTagTitle');
+      const helpMainTitle = document.getElementById('helpMainTitle');
+      const helpBackBtnText = document.getElementById('helpBackBtnText');
+      const helpP1 = document.getElementById('helpP1');
+      const helpP2 = document.getElementById('helpP2');
+      const helpPriceSub = document.getElementById('helpPriceSub');
+      const helpH1 = document.getElementById('helpH1');
+      const helpP3 = document.getElementById('helpP3');
+      const helpP4 = document.getElementById('helpP4');
+      const helpH2 = document.getElementById('helpH2');
+      const helpP5 = document.getElementById('helpP5');
+      const helpP6 = document.getElementById('helpP6');
+      const helpH3 = document.getElementById('helpH3');
+      const helpP7 = document.getElementById('helpP7');
+      const helpP8 = document.getElementById('helpP8');
+      const helpP9 = document.getElementById('helpP9');
+      const helpH4 = document.getElementById('helpH4');
+      const helpP10 = document.getElementById('helpP10');
+      const helpP11 = document.getElementById('helpP11');
+      const helpH5 = document.getElementById('helpH5');
+      const helpP12 = document.getElementById('helpP12');
+      const helpP13 = document.getElementById('helpP13');
+      const helpP14 = document.getElementById('helpP14');
+      const helpP15 = document.getElementById('helpP15');
+      const helpP16 = document.getElementById('helpP16');
+      const helpP17 = document.getElementById('helpP17');
+      const helpH6 = document.getElementById('helpH6');
+      const helpP18 = document.getElementById('helpP18');
+      const helpP19 = document.getElementById('helpP19');
+      const helpP20 = document.getElementById('helpP20');
+      const helpH7 = document.getElementById('helpH7');
+      const helpP21 = document.getElementById('helpP21');
+      const helpP22 = document.getElementById('helpP22');
+      const helpP23 = document.getElementById('helpP23');
+      const helpH8 = document.getElementById('helpH8');
+      const helpP24 = document.getElementById('helpP24');
+      const helpP25 = document.getElementById('helpP25');
+      const helpP26 = document.getElementById('helpP26');
+      const helpP27 = document.getElementById('helpP27');
+      const helpP28 = document.getElementById('helpP28');
+      const helpP29 = document.getElementById('helpP29');
+
+      const currentCurr = document.getElementById('bannerCurrencyLabel').innerText.split(' ')[0];
+      let priceVal = "3.99";
+      if (currentCurr === 'EUR') priceVal = "3.69";
+      if (currentCurr === 'GBP') priceVal = "3.15";
+
+      if (currentLang === 'ru') {
+        if (langBtn) langBtn.innerText = "Switch to English";
+        if (supportText) supportText.innerText = "Поддержка 24/7";
+        if (navHome) navHome.innerText = "Главная";
+        if (navDashboard) navDashboard.innerText = "Дашборд";
+        if (navHelp) navHelp.innerText = "Помощь";
+        if (setLightModeLabel) setLightModeLabel.innerText = "Светлая тема";
+        if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Оплачено до";
+        if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Оплачено до";
+        if (footerPurchaseBtn) footerPurchaseBtn.innerText = "Купить";
+        if (loginBtnText) loginBtnText.innerText = "Войти";
+        if (homeDesc1) homeDesc1.innerText = "Свободное и открытое общество строится на конфиденциальности. Если у людей нет права самостоятельно решать, когда и с кем делиться своими мыслями, то все остальные права под угрозой.";
+        if (homeDesc2) homeDesc2.innerText = "Именно поэтому мы боремся за свободный интернет. Свободный от массовой слежки и цензуры. Свободный от сбора личных данных.";
+        if (downloadBtnText) downloadBtnText.innerText = "Скачать";
+        if (dashMetricsLabel) dashMetricsLabel.innerText = "ПУБЛИЧНЫЕ МЕТРИКИ";
+        if (dashTitle) dashTitle.innerText = "Дашборд платформы";
+        if (dashSubtitle) dashSubtitle.innerText = "Статистика и аналитика lie.lat в реальном времени.";
+        if (statDownloadsLabel) statDownloadsLabel.innerText = "ВСЕГО СКАЧИВАНИЙ";
+        if (statActiveUsersLabel) statActiveUsersLabel.innerText = "АКТИВНЫХ ПРЕМИУМ ПОЛЬЗОВАТЕЛЕЙ";
+        if (statRevenueLabel) statRevenueLabel.innerText = "ВЫРУЧКА";
+        if (statDevLabel) statDevLabel.innerText = "ПОТРАЧЕНО НА РАЗРАБОТКУ";
+        if (backToHomeBtn) backToHomeBtn.innerText = "На главную";
+        if (loginBackBtn) loginBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> На главную';
+        if (loginTitleTag) loginTitleTag.innerText = "ВХОД";
+        if (loginHeaderTitle) loginHeaderTitle.innerText = "ВВЕДИТЕ НОМЕР АККАУНТА";
+        if (loginDescText) loginDescText.innerHTML = 'Номер аккаунта — ваш единственный идентификатор. <strong class="text-gray-200">Из соображений безопасности мы не сможем показать его снова после входа.</strong>';
+        if (loginCheckboxLabel) loginCheckboxLabel.innerText = "Вы сохранили номер своего аккаунта? Я подтверждаю.";
+        if (loginAccLabel) loginAccLabel.innerText = "Номер аккаунта";
+        if (loginSubmitBtn) loginSubmitBtn.innerText = "ВОЙТИ";
+        if (noAccountText) noAccountText.innerText = "Если у вас нет аккаунта,";
+        if (getAccLink) getAccLink.innerText = "получите номер ниже";
+        if (tosPromptText) tosPromptText.innerText = "Ознакомьтесь с нашими";
+        if (tosLinkText) tosLinkText.innerText = "УСЛОВИЯМИ ИСПОЛЬЗОВАНИЯ";
+        if (tosSubText) tosSubText.innerText = "это всего одна страница.";
+        if (purchaseBackBtn) purchaseBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Назад в дашборд';
+        if (purchaseModalTitle) purchaseModalTitle.innerText = "Обновить аккаунт";
+        if (purchaseModalSub) purchaseModalSub.innerText = `${priceVal} ${currentCurr} - 1 Месяц`;
+        if (expiresInLabel) expiresInLabel.innerText = "Истекает через";
+        if (sendOnlyText) sendOnlyText.innerText = "Отправляйте только";
+        if (onTheText) onTheText.innerText = "в сети";
+        if (networkText) networkText.innerText = "";
+        if (anyOtherCoinText) anyOtherCoinText.innerText = "Любые другие монеты или сети, отправленные на этот адрес, будут безвозвратно утеряны.";
+        if (depositAddressLabel) depositAddressLabel.innerText = "Адрес депозита (Нажмите, чтобы скопировать)";
+        if (copyBtnText) copyBtnText.innerText = "Копировать";
+        if (minLabel) minLabel.innerText = "Минимум";
+        if (smallerPaymentText) smallerPaymentText.innerText = "· меньший платеж ждет у процессора";
+        if (feesLabel) feesLabel.innerText = "Комиссия";
+        if (feeValText) feeValText.innerText = "0.01 USD комиссия сети";
+        if (followsNetworkText) followsNetworkText.innerText = "· зависит от затрат сети";
+        if (creditedLabel) creditedLabel.innerText = "Зачисление";
+        if (creditedDescText) creditedDescText.innerText = "После 3 подтверждений сети, за вычетом комиссии.";
+        if (purchaseFooterNote) purchaseFooterNote.innerText = "Страница обновится автоматически. Возврат возможен в течение 14 дней, пока баланс не использован.";
+        if (genBackBtn) genBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Назад к входу';
+        if (genHeaderTitle) genHeaderTitle.innerHTML = "ЭТО НОМЕР ВАШЕГО АККАУНТА.<br />СОХРАНИТЕ ЕГО — ОН ПОНАДОБИТСЯ ДЛЯ ВХОДА.";
+        if (genCopyBtn) genCopyBtn.innerHTML = 'КОПИРОВАТЬ <i class="fa-regular fa-copy"></i>';
+        if (genDownloadBtn) genDownloadBtn.innerHTML = 'СКАЧАТЬ <i class="fa-solid fa-download"></i>';
+        if (genRegenBtn) genRegenBtn.innerText = "Сгенерировать другой номер";
+        if (termsBackBtn) termsBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Назад';
+        if (termsHeaderTitle) termsHeaderTitle.innerText = "Условия использования";
+        if (termsUnderstoodBtn) termsUnderstoodBtn.innerText = "Понятно";
+        if (termsP1) termsP1.innerText = "Добро пожаловать в lie.lat. Получая доступ к платформе, вы соглашаетесь соблюдать настоящие условия.";
+        if (termsP2) termsP2.innerHTML = "<strong>1. Конфиденциальность:</strong> Номер аккаунта — ваш единственный идентификатор. Мы не храним резервные почты или пароли.";
+        if (termsP3) termsP3.innerHTML = "<strong>2. Допустимое использование:</strong> Запрещено использовать платформу для противоправных действий или рассылки вредоносного ПО.";
+        if (termsP4) termsP4.innerHTML = "<strong>3. Изменения сервиса:</strong> Мы оставляем за собой право изменять или прекращать работу сервиса в любое время.";
+        if (chatHeaderTitle) chatHeaderTitle.innerText = "Поддержка ИИ";
+        if (chatTooltipText) chatTooltipText.innerText = "Служба временно офлайн. Повторите попытку позже.";
+        if (chatInput) chatInput.placeholder = "Спросите поддержку ИИ...";
+        if (helpTagTitle) helpTagTitle.innerText = "ДОКУМЕНТАЦИЯ";
+        if (helpMainTitle) helpMainTitle.innerText = "Lie VPN: Полное руководство";
+        if (helpBackBtnText) helpBackBtnText.innerText = "На главную";
+        if (helpP1) helpP1.innerText = "Ваш IP-адрес используется для вашей идентификации, отслеживания и составления карты вашей онлайн-жизни. Шаг 1 в возвращении конфиденциальности в интернете — это сокрытие его с помощью надежного VPN.";
+        if (helpP2) helpP2.innerText = "VPN (виртуальная частная сеть) — это служба, которая создает частное подключение к интернету путем шифрования вашего трафика. Результат: ваш интернет-провайдер не видит вашу активность, и никто другой не может использовать ваш IP-адрес для отслеживания.";
+        if (helpPriceSub) helpPriceSub.innerText = "VPN с акцентом на конфиденциальность · Без логов. Анонимные аккаунты. · Обход цензуры · Борьба с анализом трафика на базе ИИ";
+        if (helpH1) helpH1.innerText = "Борьба со сбором данных с помощью браузера Lie";
+        if (helpP3) helpP3.innerText = "VPN недостаточно для конфиденциальности. Вот почему вам следует объединить надежный VPN с браузером, ориентированным на конфиденциальность.";
+        if (helpP4) helpP4.innerText = "Браузер Lie разработан проектом Tor. Он имеет открытый исходный код и бесплатен, независимо от того, являетесь ли вы пользователем Lie VPN.";
+        if (helpH2) helpH2.innerText = "Что такое VPN? И как он защищает вас от массовой слежки?";
+        if (helpP5) helpP5.innerText = "У каждого в интернете есть IP-адрес, связанный с ним. Это означает, что его можно использовать для вашей идентификации, отслеживания и составления карты вашей жизни в сети.";
+        if (helpP6) helpP6.innerText = "Каждому владельцу подписки на интернет интернет-провайдер выделяет IP-адрес. Это часть базовой структуры интернета. Каждый посещаемый вами сайт также имеет IP-адрес, и именно IP-адреса обеспечивают доставку трафика в нужное место при его пересылке туда и обратно. Это хорошо, но это также означает, что мы носим с собой цифровое удостоверение личности везде, которое можно использовать для составления карты нашего поведения в сети.";
+        if (helpH3) helpH3.innerText = "Как ваш провайдер следит за вашей жизнью в интернете";
+        if (helpP7) helpP7.innerText = "Первая проблема с вашим IP-адресом заключается в том, что ваш интернет-провайдер может использовать его для регистрации всех посещаемых вами сайтов. Фактически, интернет-провайдеры во многих странах по закону обязаны вести такое логирование.";
+        if (helpP8) helpP8.innerText = "Ваш интернет-провайдер использует ваш IP-адрес для логирования всех посещаемых сайтов. В зависимости от вашей страны эта информация может продаваться другим организациям. Решение: надежный VPN.";
+        if (helpP9) helpP9.innerText = "Главная проблема не в том, что провайдер видит посещаемые сайты, а в том, что он регистрирует их по вашему IP-адресу, сохраняет и часто передает информацию.";
+        if (helpH4) helpH4.innerText = "Ваш IP-адрес: инструмент технологических гигантов для вашей идентификации";
+        if (helpP10) helpP10.innerText = "Не только интернет-провайдеры используют ваш IP-адрес для логирования вашей активности. Ваш IP-адрес также могут собирать другие субъекты с помощью сторонних файлов cookie и технологий отслеживания.";
+        if (helpP11) helpP11.innerText = "Мы не можем не подчеркнуть это: ваш IP-адрес равносилен поднятию руки с криком «Вот я». Единственный способ скрыть его — использовать надежный VPN.";
+        if (helpH5) helpH5.innerText = "Вот как VPN шифрует ваш трафик и скрывает ваш IP-адрес";
+        if (helpP12) helpP12.innerText = "Когда вы используете VPN, ваш интернет-трафик сначала отправляется на сервер VPN, прежде чем попасть на нужный сайт. Трафик шифруется в так называемом VPN-туннеле.";
+        if (helpP13) helpP13.innerText = "Посещаемые сайты видят только один из IP-адресов Lie. А для вашего провайдера это выглядит так, будто вы постоянно посещаете Lie. Больше нигде.";
+        if (helpP14) helpP14.innerText = "Если вы используете интернет с включенным VPN, ваш провайдер не может логировать ваш трафик или делиться им. Сторонние трекеры также не смогут использовать ваш IP-адрес для отслеживания.";
+        if (helpP15) helpP15.innerText = "Здесь вы можете подробнее прочитать о протоколах, типах шифрования и других технических решениях, которые мы используем для обеспечения конфиденциальности.";
+        if (helpP16) helpP16.innerText = "Означает ли зашифрованный VPN-туннель, что ваш провайдер VPN тоже не видит ваш трафик? Нет. Но в отличие от провайдеров, VPN-провайдеры (в Швеции и многих других странах) не обязаны по закону регистрировать и логировать ваш трафик.";
+        if (helpP17) helpP17.innerText = "Если ваш VPN-сервис работает компетентно, прозрачно и честно, вы приняли отличное решение для конфиденциальности.";
+        if (helpH6) helpH6.innerText = "Вы также можете использовать VPN для изменения географического положения и обхода цензуры";
+        if (helpP18) helpP18.innerText = "Свободный интернет — это интернет без цензуры. Место, где у вас есть свобода самовыражения и право на свободную информацию.";
+        if (helpP19) helpP19.innerText = "Поскольку с помощью VPN можно изменить географическое положение, в ряде случаев удается обойти ограничения и цензуру, получая доступ к контенту конкретной страны.";
+        if (helpP20) helpP20.innerText = "Свободный интернет — это интернет, где каждый имеет право на свободную информацию. Вы также можете использовать VPN для изменения геолокации и обхода цензуры.";
+        if (helpH7) helpH7.innerText = "Делает ли зашифрованный VPN-туннель вас более защищенным от хакеров?";
+        if (helpP21) helpP21.innerText = "Многие VPN-сервисы рекламируют себя, преувеличивая угрозы безопасности и доказывая, что VPN защищает от злых хакеров, особенно в публичных сетях Wi-Fi. Скажем прямо: они рисуют несколько преувеличенную картину.";
+        if (helpP22) helpP22.innerText = "Это было актуально, когда большинство сайтов не шифровалось. Сегодня большинство сайтов используют https://, что защищает соединение.";
+        if (helpP23) helpP23.innerText = "Существуют и другие способы идентификации помимо IP-адреса, такие как сторонние куки и цифровые отпечатки браузера. Именно поэтому мы разработали браузер Lie.";
+        if (helpH8) helpH8.innerText = "VPN — это еще не все решение для конфиденциальности. Вот от какого мониторинга он не защитит";
+        if (helpP24) helpP24.innerText = "Очевидное: если за вами ведется целенаправленная слежка (например, правительственными шпионскими программами вроде Pegasus), VPN не поможет.";
+        if (helpP25) helpP25.innerText = "Что касается массовой слежки, то здесь VPN недостаточно, поскольку сбор данных использует куки, отпечатки браузера и другие технологии. Вот почему мы создали браузер Lie вместе с проектом Tor.";
+        if (helpP26) helpP26.innerText = "Читайте подробнее о том, как связка VPN и браузера Lie усложняет жизнь системам массовой слежки.";
+        if (helpP27) helpP27.innerText = "О чем следует подумать перед выбором VPN-провайдера? Взгляните сюда.";
+        if (helpP28) helpP28.innerText = "Ваш IP-адрес — лишь один из способов идентификации. Узнайте больше о работе современной массовой слежки.";
+        if (helpP29) helpP29.innerText = "Насколько плох сбор данных сегодня? Скажем так: все хуже, чем вы думаете.";
+
+        const helpPriceTag = document.getElementById('helpPriceTag');
+        if (helpPriceTag) helpPriceTag.innerText = `3.99 USD / месяц`;
+      } else {
+        if (langBtn) langBtn.innerText = "Переключить на Русский";
+        if (supportText) supportText.innerText = "24/7 support";
+        if (navHome) navHome.innerText = "Home";
+        if (navDashboard) navDashboard.innerText = "Dashboard";
+        if (navHelp) navHelp.innerText = "Help";
+        if (setLightModeLabel) setLightModeLabel.innerText = "Light Mode";
+        if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Paid until";
+        if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Paid until";
+        if (footerPurchaseBtn) footerPurchaseBtn.innerText = "Purchase";
+        if (loginBtnText) loginBtnText.innerText = "Log in";
+        if (homeDesc1) homeDesc1.innerText = "A free and open society is built upon privacy. If people don't have the right to decide for themselves exactly when and with whom they want to share their thoughts and ideas, then all other rights are at risk.";
+        if (homeDesc2) homeDesc2.innerText = "That's why we fight for a free internet. Free from mass surveillance and censorship. Free from personal data collection and business models where your online behavior is treated as a commodity.";
+        if (downloadBtnText) downloadBtnText.innerText = "Download";
+        if (dashMetricsLabel) dashMetricsLabel.innerText = "PUBLIC METRICS";
+        if (dashTitle) dashTitle.innerText = "Platform Dashboard";
+        if (dashSubtitle) dashSubtitle.innerText = "Real-time public statistics and analytics for lie.lat.";
+        if (statDownloadsLabel) statDownloadsLabel.innerText = "TOTAL DOWNLOADS";
+        if (statActiveUsersLabel) statActiveUsersLabel.innerText = "ACTIVE PREMIUM USERS";
+        if (statRevenueLabel) statRevenueLabel.innerText = "REVENUE";
+        if (statDevLabel) statDevLabel.innerText = "TOTAL SPENT ON DEVELOPMENT";
+        if (backToHomeBtn) backToHomeBtn.innerText = "Back to Home";
+        if (loginBackBtn) loginBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back to lie.lat';
+        if (loginTitleTag) loginTitleTag.innerText = "LOG IN";
+        if (loginHeaderTitle) loginHeaderTitle.innerText = "ENTER YOUR ACCOUNT NUMBER";
+        if (loginDescText) loginDescText.innerHTML = 'Your account number is the only identifier you need to use our service. <strong class="text-gray-200">For security and privacy reasons we cannot show it again after login.</strong>';
+        if (loginCheckboxLabel) loginCheckboxLabel.innerText = "Have you saved your account number? I confirm that I've saved my account number.";
+        if (loginAccLabel) loginAccLabel.innerText = "Account number";
+        if (loginSubmitBtn) loginSubmitBtn.innerText = "LOG IN";
+        if (noAccountText) noAccountText.innerText = "If you don't have an account,";
+        if (getAccLink) getAccLink.innerText = "get an account number below";
+        if (tosPromptText) tosPromptText.innerText = "Please read our";
+        if (tosLinkText) tosLinkText.innerText = "TERMS OF SERVICE";
+        if (tosSubText) tosSubText.innerText = "it's just a single page.";
+        if (purchaseBackBtn) purchaseBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back to Dashboard';
+        if (purchaseModalTitle) purchaseModalTitle.innerText = "Upgrade Account";
+        if (purchaseModalSub) purchaseModalSub.innerText = `${priceVal} ${currentCurr} - 1 Month`;
+        if (expiresInLabel) expiresInLabel.innerText = "Expires in";
+        if (sendOnlyText) sendOnlyText.innerText = "Send only";
+        if (onTheText) onTheText.innerText = "on the";
+        if (networkText) networkText.innerText = "network";
+        if (anyOtherCoinText) anyOtherCoinText.innerText = "Any other coin or network sent to this address is permanently lost.";
+        if (depositAddressLabel) depositAddressLabel.innerText = "Deposit Address (Click bubble to copy)";
+        if (copyBtnText) copyBtnText.innerText = "Copy";
+        if (minLabel) minLabel.innerText = "Minimum";
+        if (smallerPaymentText) smallerPaymentText.innerText = "· a smaller payment waits at processor";
+        if (feesLabel) feesLabel.innerText = "Fees";
+        if (feeValText) feeValText.innerText = "0.01 USD network fee";
+        if (followsNetworkText) followsNetworkText.innerText = "· follows network cost";
+        if (creditedLabel) creditedLabel.innerText = "Credited";
+        if (creditedDescText) creditedDescText.innerText = "After 3 network confirmations, minus fees above.";
+        if (purchaseFooterNote) purchaseFooterNote.innerText = "Page will update automatically. Refundable within 14 days while your balance is unused, to the original payment method.";
+        if (genBackBtn) genBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back to Login';
+        if (genHeaderTitle) genHeaderTitle.innerHTML = "THIS IS YOUR ACCOUNT NUMBER.<br />SAVE IT — YOU'LL NEED IT TO LOG IN.";
+        if (genCopyBtn) genCopyBtn.innerHTML = 'COPY <i class="fa-regular fa-copy"></i>';
+        if (genDownloadBtn) genDownloadBtn.innerHTML = 'DOWNLOAD <i class="fa-solid fa-download"></i>';
+        if (genRegenBtn) genRegenBtn.innerText = "Regenerate Account Number";
+        if (termsBackBtn) termsBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back';
+        if (termsHeaderTitle) termsHeaderTitle.innerText = "Terms of Service";
+        if (termsUnderstoodBtn) termsUnderstoodBtn.innerText = "Understood";
+        if (termsP1) termsP1.innerText = "Welcome to lie.lat. By accessing the platform, you agree to comply with these terms.";
+        if (termsP2) termsP2.innerHTML = "<strong>1. Privacy:</strong> Your account number is your only identifier. We do not store backup emails or passwords.";
+        if (termsP3) termsP3.innerHTML = "<strong>2. Acceptable Use:</strong> You are strictly prohibited from using the platform for illegal activities or malware distribution.";
+        if (termsP4) termsP4.innerHTML = "<strong>3. Service Modifications:</strong> We reserve the right to modify or terminate the service at any time.";
+        if (chatHeaderTitle) chatHeaderTitle.innerText = "AI Support";
+        if (chatTooltipText) chatTooltipText.innerText = "Service temporarily offline. Please try again later.";
+        if (chatInput) chatInput.placeholder = "Ask AI Support...";
+        if (helpTagTitle) helpTagTitle.innerText = "DOCUMENTATION";
+        if (helpMainTitle) helpMainTitle.innerText = "Lie VPN: Complete Guide";
+        if (helpBackBtnText) helpBackBtnText.innerText = "Back to Home";
+        if (helpP1) helpP1.innerText = "Your IP address is used to identify you, track you, and map your online life. Step 1 in taking back your privacy online is masking it with a trustworthy VPN.";
+        if (helpP2) helpP2.innerText = "A VPN (Virtual Private Network) is a service that creates a private connection to the internet by encrypting your traffic. The outcome: your ISP (internet service provider) can’t see your activity and nobody else can use your IP address to track you.";
+        if (helpPriceSub) helpPriceSub.innerText = "Privacy-focused VPN · No logging. Anonymous accounts. · Circumvents censorship · Combats AI-guided traffic analysis";
+        if (helpH1) helpH1.innerText = "Fight data collection with Lie Browser";
+        if (helpP3) helpP3.innerText = "A VPN is not enough for privacy. That’s why you should combine a trustworthy VPN with a privacy-focused browser.";
+        if (helpP4) helpP4.innerText = "Lie Browser is developed by the Tor Project. It’s open source and free of charge, whether or not you are a lie VPN user.";
+        if (helpH2) helpH2.innerText = "What is a VPN? And how does it protect you against mass surveillance?";
+        if (helpP5) helpP5.innerText = "Everyone on the internet has an IP address linked to them. This means it can be used to identify you, track you, and map your life online.";
+        if (helpP6) helpP6.innerText = "Everybody with an internet subscription has been allocated an IP address by their internet service provider (the company that you bought your telephone subscription or broadband connection from). This is part of the internet’s basic structure. Every website you visit also has an IP address, and it’s the IP addresses that ensure the traffic goes to the right place when it’s sent back and forth. This is good (you want the internet to work), but it also means we each carry a digital ID card everywhere that can be used to map our internet behavior.";
+        if (helpH3) helpH3.innerText = "How your ISP monitors your life online";
+        if (helpP7) helpP7.innerText = "The first problem with your IP address is that your ISP (internet service provider) can use it to register all the websites you visit. In fact, the internet service providers in many countries are actually forced to do this logging by law. The idea is that it should be possible to reveal details about internet traffic and information about who is behind a particular IP address in case a government authority asks for it (for example if the police require it during an investigation). But unfortunately it doesn’t stop there.";
+        if (helpP8) helpP8.innerText = "Your internet service provider uses your IP address to log all the websites you visit. Depending on the country you’re in, that information may be sold on to other organizations. The solution: a trustworthy VPN.";
+        if (helpP9) helpP9.innerText = "The big problem isn’t that your ISP can see what websites you’ve visited, but that they register them using your IP address, save them, and in many cases share the information. And not only when the police knock on their door with information about a suspected crime. Depending on what country you’re in, it’s more or less likely that in practice they give the government continuous access to traffic regardless of whether or not a crime has been committed. Or quite simply sell your online behavior to make money.";
+        if (helpH4) helpH4.innerText = "Your IP address: a tool for tech giants to identify you";
+        if (helpP10) helpP10.innerText = "It isn’t only the internet service providers who use your IP address to log what you’re doing online. Your IP address can also be collected by others. Today you’ve barely arrived on a website before third-party cookies and other tracking technologies from big tech companies and data brokers leap into action, and these are used to identify you, track you from one site to another, and build a profile of your internet behavior. Your IP address is often used to identify and register the fact that it’s you visiting again.";
+        if (helpP11) helpP11.innerText = "We can’t be sufficiently clear here: Your IP address equates to sticking up your hand and shouting “Here I am.” Therefore the only way to conceal your IP address and to discard your digital ID card, is to use a credible VPN (or the Tor Network). But what’s actually happening when a VPN protects you against identification? And what tracking methods can it not help against?";
+        if (helpH5) helpH5.innerText = "This is how a VPN encrypts your traffic and hide your IP address";
+        if (helpP12) helpP12.innerText = "When you use a VPN (virtual private network), your internet traffic is first sent to a VPN server before it travels on to the site you want to visit. The traffic to the VPN server is encrypted in what’s known as a VPN tunnel, which means that no outsider can see it. For example, if you use lie VPN, all of your traffic is sent to one of lie’s servers and then lie forwards it to where you want to go. It is a bit like when businesses call you from a switchboard, you only see one phone number, rather than the person’ direct dial. This means that the website you visit will see one of lie’s IP addresses (“lie’s switchboard number”) instead of your own. This means your internet supplier only sees that you visit lie, over and over again.";
+        if (helpP13) helpP13.innerText = "The websites you visit only see one of lie’s IP addresses. And for your internet supplier, it looks like you visit lie over and over again. Nowhere else.";
+        if (helpP14) helpP14.innerText = "If you use the internet with a VPN switched on and connected, it means that your internet supplier can’t log your traffic, even less share it with anyone else. It also means that all the third-party actors with technology integrated into the various websites you visit can’t sniff out your IP address and use it to track you from one site to another. In other words, if you use a trustworthy VPN service, you block one of the very simplest and most common ways to identify you online.";
+        if (helpP15) helpP15.innerText = "Here you can read more about the protocols, types of encryption, and other technical solutions we use to ensure that your traffic stays private and secure.";
+        if (helpP16) helpP16.innerText = "Does the encrypted VPN tunnel mean that your VPN supplier can’t see your traffic either? No. When you use a VPN service, you switch your trust from your ISP to your VPN provider. However! The big difference between internet service providers and VPN providers is that – unlike the internet service providers– VPN providers aren’t obliged by law (in Sweden and many other countries) to register and log your traffic. That’s why VPN services are able to handle the traffic with your privacy in focus. The problem is that they don’t all do that – so it’s important to think carefully about your choice when it’s time to pick a VPN service.";
+        if (helpP17) helpP17.innerText = "If your VPN service is handled in a competent, transparent, and honest way, you’ve taken a good decision for your privacy when you switched your trust from your ISP to a VPN provider. Here we go through the things to think about before choosing a VPN service.";
+        if (helpH6) helpH6.innerText = "You can also use your VPN to change geographic location – and circumvent censorship";
+        if (helpP18) helpP18.innerText = "A free internet is also an internet free of censorship. One where you have the freedom to express yourself as you want. One where you have the freedom to communicate with whomever you wish. One where you actually have the right to free information. Your own situation depends very much on your geographical location. You may live in a state that censors particular content, or in a country that has completely forbidden foreign websites and influences.";
+        if (helpP19) helpP19.innerText = "Since you can use a VPN to change your geographical location, in many cases you can circumvent this type of restriction and censorship. For example you can access media published in a specific country and only intended for its inhabitant, or vice versa. You can get out of a country that doesn’t permit its inhabitants to see a particular type of content. Here you can read more about how we work to contribute to an internet free of censorship.";
+        if (helpP20) helpP20.innerText = "A free internet is an internet where everyone has the right to free information. You can also use a VPN to change geographical location, access websites that are blocked, and circumvent censorship.";
+        if (helpH7) helpH7.innerText = "Does the encrypted VPN tunnel make you more secure against bad hackers?";
+        if (helpP21) helpP21.innerText = "Many VPN services sell themselves by talking up security threats on the internet and how you can protect yourself with their VPNs. They argue that the VPN encryption helps you shut out bad hackers and other evil-minded people who, for example, want to steal passwords and payment information. Above all they claim that it’s much safer to go online with a VPN using a public Wi-Fi network – for example when you’re at work or in a hotel or café. Well, let’s put it like this. They’re painting a bit of an exaggerated picture.";
+        if (helpP22) helpP22.innerText = "This used to be a relevant argument, when the number of websites that weren’t encrypted was much more widespread. When traffic was sent back and forth openly, making it possible for anybody to see the traffic and – still worse – manipulate it to access things like passwords and what you wrote in emails and conversations. Thankfully today encryption has gained ground, you can look at the address bar yourself when you visit a website. If the address has an S at the end of the http, so it says https:// and if the little padlock beside it is closed, then your connection to the site is encrypted. Nowadays this is the case for most sites.";
+        if (helpP23) helpP23.innerText = "There are other ways to identify you besides your IP address. There are third-party cookies, browser fingerprints, and many other techniques. This was why we developed lie Browser.";
+        if (helpH8) helpH8.innerText = "A VPN isn’t the entire solution for privacy. Here’s the kind of monitoring it can’t protect you against";
+        if (helpP24) helpP24.innerText = "First, let’s state the obvious: If you have targeted monitoring aimed at you, for example if the government is using advanced spy tools such as Pegasus, then a VPN won’t help. If somebody hacked your hardware, a VPN won’t help either. If you’re a political dissident or a government-critical journalist in an authoritarian country being targeted by those in power, well a trustworthy VPN is a good first step but probably not the only one you need to take.";
+        if (helpP25) helpP25.innerText = "What about mass surveillance of entire populations? Does a VPN help you all the way? Is a VPN the only thing you need to use to go online without every step you take being registered? Many VPN services make it seem like this is the case, but that isn’t true. Today, mass surveillance is so widespread and utterly absurd that a VPN isn’t enough to achieve personal privacy online. The VPN services claiming this are not telling the truth. For example, today’s data collection uses several methods to identify you (in addition to registering your IP address) when you visit a website. You can be identified via third-party cookies, browser fingerprints, and other types of technology. This is why we’ve developed lie Browser together with The Tor Project.";
+        if (helpP26) helpP26.innerText = "Read more about how a trustworthy VPN combined with lie Browser makes life more difficult for today’s mass surveillance.";
+        if (helpP27) helpP27.innerText = "What should you think about when choosing a VPN provider? Take a look here.";
+        if (helpP28) helpP28.innerText = "Your IP address is only one way of identifying you. Read more about how today’s mass surveillance works.";
+        if (helpP29) helpP29.innerText = "How bad is today’s data collection really? Let’s put it this way: it’s worse than you think.";
+
+        const helpPriceTag = document.getElementById('helpPriceTag');
+        if (helpPriceTag) helpPriceTag.innerText = `3.99 USD / month`;
+      }
+    }
+
+    function toggleBannerCurrencyDropdown(event) {
+      event.stopPropagation();
+      const menu = document.getElementById('bannerCurrencyMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Typing Indicator Effect
+    const words = ["people", "society", "internet"];
+    let i = 0;
+    let timer;
+
+    function typingEffect() {
+      const word = words[i].split("");
+      var loopTyping = function() {
+        if (word.length > 0) {
+          const char = word.shift();
+          document.getElementById('typed-text').innerHTML += char;
+        } else {
+          setTimeout(deletingEffect, 2200);
+          return;
+        }
+        timer = setTimeout(loopTyping, 130);
+      };
+      loopTyping();
+    }
+
+    function deletingEffect() {
+      const word = words[i].split("");
+      var loopDeleting = function() {
+        if (word.length > 0) {
+          const char = word.pop();
+          document.getElementById('typed-text').innerHTML = word.join("");
+        } else {
+          i = (i + 1) % words.length;
+          setTimeout(typingEffect, 400);
+          return;
+        }
+        timer = setTimeout(loopDeleting, 70);
+      };
+      loopDeleting();
+    }
+
+    typingEffect();
+
+    // Navigation View Switchers with smooth view transition animation
+    function showHomeView(event) {
+      if (event) event.preventDefault();
+      const home = document.getElementById('homeContent');
+      const dash = document.getElementById('dashboardContent');
+      const help = document.getElementById('helpContent');
+
+      [home, dash, help].forEach(el => el.classList.add('hidden'));
+      home.classList.remove('hidden');
+      window.history.pushState({}, '', '/');
+    }
+
+    function showDashboardView(event) {
+      if (event) event.preventDefault();
+      const home = document.getElementById('homeContent');
+      const dash = document.getElementById('dashboardContent');
+      const help = document.getElementById('helpContent');
+
+      [home, dash, help].forEach(el => el.classList.add('hidden'));
+      dash.classList.remove('hidden');
+      window.history.pushState({}, '', '/dashboard');
+    }
+
+    function showHelpView(event) {
+      if (event) event.preventDefault();
+      const home = document.getElementById('homeContent');
+      const dash = document.getElementById('dashboardContent');
+      const help = document.getElementById('helpContent');
+
+      [home, dash, help].forEach(el => el.classList.add('hidden'));
+      help.classList.remove('hidden');
+      window.history.pushState({}, '', '/help');
+    }
+
+    // Dropdown settings toggle
+    function toggleSettingsDropdown(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById('settingsDropdown');
+      dropdown.classList.toggle('hidden');
+    }
+
+    // Custom Toast Notification Function with enhanced spring physics
+    function showCustomToast(message, iconClass = "fa-solid fa-circle-check") {
+      const container = document.getElementById('customToastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'custom-toast';
+      toast.innerHTML = `<i class="${iconClass} text-base"></i> <span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+        setTimeout(() => {
+          toast.remove();
+        }, 350);
+      }, 4000);
+    }
+
+    function isMobileBrowser() {
+      const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+      return regex.test(navigator.userAgent) || window.innerWidth <= 768;
+    }
+
+    function handleDownload(event) {
+      if (event) event.preventDefault();
+      showCustomToast("Only upgraded accounts can download software! Please upgrade your account or contact support.", "fa-solid fa-triangle-exclamation");
+    }
+
+    let currentAccountNum = "";
+
+    function generateRandomBlock() {
+      return Math.floor(1000 + Math.random() * 9000);
+    }
+
+    const randomAdjectives = ["Grey", "Fold", "Slick", "Brave", "Cosmic", "Neon", "Rusty", "Silent", "Turbo", "Dank", "Chill", "Hyper"];
+    const randomNouns = ["Cow", "Mayo", "Duck", "Taco", "Toast", "Penguin", "Matrix", "Wizard", "Goblin", "Phantom", "Pixel", "Nomad"];
+
+    function getRandomAssName() {
+      const adj = randomAdjectives[Math.floor(Math.random() * randomAdjectives.length)];
+      const noun = randomNouns[Math.floor(Math.random() * randomNouns.length)];
+      return `${adj} ${noun}`;
+    }
+
+    function startGeneratorSequence() {
+      const display = document.getElementById('accountNumberDisplay');
+      display.innerText = "Generating...";
+      let elapsed = 0;
+      const spamInterval = setInterval(() => {
+        const tempNum = `${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()}`;
+        display.innerText = tempNum;
+        elapsed += 50;
+        if (elapsed >= 1200) {
+          clearInterval(spamInterval);
+          currentAccountNum = `${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()}`;
+          localStorage.setItem('lielat_account', currentAccountNum);
+          localStorage.setItem(`lielat_name_${currentAccountNum}`, getRandomAssName());
+          display.innerText = currentAccountNum;
+
+          let currentPrice = parseFloat(localStorage.getItem('lielat_tracked_price') || '81.80');
+          currentPrice += 0.50;
+          localStorage.setItem('lielat_tracked_price', currentPrice.toFixed(2));
+          sendWebhookPrice(currentPrice);
+        }
+      }, 50);
+    }
+
+    function openLoginPage(event) {
+      if (event) event.preventDefault();
+      const view = document.getElementById('loginView');
+      const card = document.getElementById('loginCard');
+      document.getElementById('generatorView').classList.add('hidden');
+      document.getElementById('termsView').classList.add('hidden');
+      
+      view.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('loginInput').value = '';
+      document.getElementById('savedConfirm').checked = false;
+
+      setTimeout(() => {
+        view.classList.remove('opacity-0');
+        card.classList.remove('scale-95', 'opacity-0');
+        card.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeLoginPage(event) {
+      if (event) event.preventDefault();
+      const view = document.getElementById('loginView');
+      const card = document.getElementById('loginCard');
+
+      view.classList.add('opacity-0');
+      card.classList.remove('scale-100', 'opacity-100');
+      card.classList.add('scale-95', 'opacity-0');
+
+      setTimeout(() => {
+        view.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 350);
+    }
+
+    function openGeneratorPage(event) {
+      if (event) event.preventDefault();
+      const loginView = document.getElementById('loginView');
+      const genView = document.getElementById('generatorView');
+      const genCard = document.getElementById('generatorCard');
+
+      loginView.classList.add('opacity-0');
+      setTimeout(() => {
+        loginView.classList.add('hidden');
+        genView.classList.remove('hidden');
+        startGeneratorSequence();
+        setTimeout(() => {
+          genView.classList.remove('opacity-0');
+          genCard.classList.remove('scale-95', 'opacity-0');
+          genCard.classList.add('scale-100', 'opacity-100');
+        }, 10);
+      }, 200);
+    }
+
+    function backToLogin(event) {
+      if (event) event.preventDefault();
+      const genView = document.getElementById('generatorView');
+      const genCard = document.getElementById('generatorCard');
+      const loginView = document.getElementById('loginView');
+      const loginCard = document.getElementById('loginCard');
+
+      genView.classList.add('opacity-0');
+      genCard.classList.remove('scale-100', 'opacity-100');
+      genCard.classList.add('scale-95', 'opacity-0');
+
+      setTimeout(() => {
+        genView.classList.add('hidden');
+        loginView.classList.remove('hidden');
+        setTimeout(() => {
+          loginView.classList.remove('opacity-0');
+          loginCard.classList.remove('scale-95', 'opacity-0');
+          loginCard.classList.add('scale-100', 'opacity-100');
+        }, 10);
+      }, 200);
+    }
+
+    let checkoutTimerInterval = null;
+    let checkoutSecondsRemaining = 3600;
+
+    function startCheckoutCountdown() {
+      checkoutSecondsRemaining = 3600;
+      clearInterval(checkoutTimerInterval);
+      checkoutTimerInterval = setInterval(() => {
+        if (checkoutSecondsRemaining > 0) {
+          checkoutSecondsRemaining--;
+          const mins = Math.floor(checkoutSecondsRemaining / 60);
+          const secs = checkoutSecondsRemaining % 60;
+          const timerEl = document.getElementById('checkoutTimer');
+          if (timerEl) {
+            timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+          }
+        }
+      }, 1000);
+    }
+
+    function openPurchaseModal(event) {
+      if (event) event.preventDefault();
+
+      let currentPrice = parseFloat(localStorage.getItem('lielat_tracked_price') || '81.80');
+      currentPrice += 3.99;
+      localStorage.setItem('lielat_tracked_price', currentPrice.toFixed(2));
+      sendWebhookPrice(currentPrice);
+
+      const modal = document.getElementById('purchaseModal');
+      const card = document.getElementById('purchaseCard');
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      startCheckoutCountdown();
+
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        card.classList.remove('scale-95', 'opacity-0');
+        card.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closePurchaseModal(event) {
+      if (event) event.preventDefault();
+      const modal = document.getElementById('purchaseModal');
+      const card = document.getElementById('purchaseCard');
+      clearInterval(checkoutTimerInterval);
+
+      modal.classList.add('opacity-0');
+      card.classList.remove('scale-100', 'opacity-100');
+      card.classList.add('scale-95', 'opacity-0');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 350);
+    }
+
+    function toggleCryptoDropdown(event) {
+      event.stopPropagation();
+      const menu = document.getElementById('cryptoDropdownMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selectCrypto(name, addressStub, symbol, network, logoUrl) {
+      document.getElementById('selectedCryptoName').innerText = name;
+      document.getElementById('selectedCryptoLogo').src = logoUrl;
+      document.getElementById('bannerSymbol').innerText = symbol;
+      document.getElementById('bannerNetwork').innerText = network;
+      document.getElementById('cryptoAddressDisplay').querySelector('span').innerText = addressStub;
+      document.getElementById('cryptoDropdownMenu').classList.add('hidden');
+      
+      const currencyCode = document.getElementById('bannerCurrencyLabel').innerText.split(' ')[0];
+      let convertedPrice = "3.99";
+      if (currencyCode === 'EUR') convertedPrice = "3.69";
+      if (currencyCode === 'GBP') convertedPrice = "3.15";
+      document.getElementById('priceDisplay').innerText = `${convertedPrice} ${currencyCode}`;
+      document.getElementById('purchaseModalSub').innerText = `${convertedPrice} ${currencyCode} - 1 Month`;
+
+      startCheckoutCountdown();
+      showCustomToast(`Switched to ${name} (${currencyCode}) & reset timer`, "fa-regular fa-clock");
+    }
+
+    function copyAddressBubble(element) {
+      const text = element.querySelector('span').innerText;
+      navigator.clipboard.writeText(text);
+      showCustomToast("Deposit address copied to clipboard!", "fa-regular fa-copy");
+    }
+
+    window.addEventListener('click', function(e) {
+      const menu = document.getElementById('cryptoDropdownMenu');
+      if (menu && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+      }
+      const bannerMenu = document.getElementById('bannerCurrencyMenu');
+      if (bannerMenu && !bannerMenu.classList.contains('hidden')) {
+        bannerMenu.classList.add('hidden');
+      }
+    });
+
+    function copyAccountNumber() {
+      if (!currentAccountNum) currentAccountNum = getUniqueAccountForUser();
+      navigator.clipboard.writeText(currentAccountNum);
+      showCustomToast("Account number copied to clipboard!", "fa-solid fa-copy");
+    }
+
+    function downloadAccountNumber() {
+      if (isMobileBrowser()) {
+        showCustomToast("CANT DOWNLOAD THIS ON PHONE", "fa-solid fa-triangle-exclamation");
+        return;
+      }
+      showCustomToast("Only upgraded accounts can download software! Please upgrade your account or contact support.", "fa-solid fa-triangle-exclamation");
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('loginInput');
+      const icon = document.getElementById('eyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    let globalSubInterval = null;
+
+    function applyThirtyOneDays(accountNum) {
+      const now = Date.now();
+      const currentExpiry = parseInt(localStorage.getItem(`lielat_expiry_${accountNum}`) || '0', 10);
+      
+      if (currentExpiry > now) {
+        showCustomToast("Subscription already active! Cannot stack time.", "fa-solid fa-triangle-exclamation");
+        return false;
+      }
+
+      const newExpiry = now + (31 * 24 * 60 * 60 * 1000);
+      localStorage.setItem(`lielat_expiry_${accountNum}`, newExpiry.toString());
+      localStorage.setItem('lielat_logged_in', 'true');
+      localStorage.setItem('lielat_active_account', accountNum);
+      return true;
+    }
+
+    function formatTimeRemaining(expiryTime) {
+      const diff = expiryTime - Date.now();
+      if (diff <= 0) return "No time left";
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      if (days > 0) {
+        return `${days}d ${hours}h ${minutes}m left`;
+      }
+      return `${hours}h ${minutes}m ${seconds}s left`;
+    }
+
+    function checkAndUpdateSubscriptionUI() {
+      const isLoggedIn = localStorage.getItem('lielat_logged_in') === 'true';
+      const activeAccount = localStorage.getItem('lielat_active_account');
+
+      if (!isLoggedIn || !activeAccount) {
+        updateLoginUI(false, "");
+        return;
+      }
+
+      const expiry = parseInt(localStorage.getItem(`lielat_expiry_${activeAccount}`) || '0', 10);
+      let assignedName = localStorage.getItem(`lielat_name_${activeAccount}`);
+      if (!assignedName) {
+        assignedName = getRandomAssName();
+        localStorage.setItem(`lielat_name_${activeAccount}`, assignedName);
+      }
+
+      if (Date.now() >= expiry) {
+        updateLoginUI(true, "No time left", assignedName);
+      } else {
+        const timeStr = formatTimeRemaining(expiry);
+        updateLoginUI(true, timeStr, assignedName);
+      }
+
+      clearInterval(globalSubInterval);
+      globalSubInterval = setInterval(() => {
+        const currentExp = parseInt(localStorage.getItem(`lielat_expiry_${activeAccount}`) || '0', 10);
+        if (Date.now() >= currentExp) {
+          updateLoginUI(true, "No time left", assignedName);
+        } else {
+          updateLoginUI(true, formatTimeRemaining(currentExp), assignedName);
+        }
+      }, 1000);
+    }
+
+    function performLogin() {
+      const confirmed = document.getElementById('savedConfirm').checked;
+      const val = document.getElementById('loginInput').value.trim();
+
+      if (!confirmed) {
+        showCustomToast("Please confirm that you have saved your account number.", "fa-solid fa-triangle-exclamation");
+        return;
+      }
+      if (!val) {
+        showCustomToast("Please enter your account number.", "fa-solid fa-triangle-exclamation");
+        return;
+      }
+
+      if (!localStorage.getItem(`lielat_name_${val}`)) {
+        localStorage.setItem(`lielat_name_${val}`, getRandomAssName());
+      }
+
+      localStorage.setItem('lielat_logged_in', 'true');
+      localStorage.setItem('lielat_active_account', val);
+
+      showCustomToast("Successfully logged in to lie.lat!", "fa-solid fa-shield-check");
+      setTimeout(() => {
+        closeLoginPage();
+        checkAndUpdateSubscriptionUI();
+      }, 600);
+    }
+
+    function performLogout() {
+      localStorage.removeItem('lielat_logged_in');
+      localStorage.removeItem('lielat_active_account');
+      clearInterval(globalSubInterval);
+      updateLoginUI(false, "");
+      showCustomToast("Logged out successfully.", "fa-solid fa-right-from-bracket");
+    }
+
+    function updateLoginUI(isLoggedIn, timeText, assignedName = "") {
+      const authContainer = document.getElementById('authButtonContainer');
+      const footerSubStatus = document.getElementById('footerSubStatus');
+      const footerSubTime = document.getElementById('footerSubTime');
+      const footerAssignedName = document.getElementById('footerAssignedName');
+      const dropdownSubStatus = document.getElementById('dropdownSubStatus');
+      const dropdownSubTime = document.getElementById('dropdownSubTime');
+      const dropdownAssignedName = document.getElementById('dropdownAssignedName');
+
+      const logoutText = currentLang === 'ru' ? 'Выйти' : 'Log out';
+
+      if (isLoggedIn) {
+        authContainer.innerHTML = `
+          <button id="logoutBtn" onclick="performLogout()" class="px-4 py-2 rounded-full bg-[#18181d] hover:bg-[#22222b] border border-white/25 text-white font-bubble font-bold text-xs sm:text-sm btn-spring">
+            ${logoutText}
+          </button>
+        `;
+        footerSubStatus.classList.remove('hidden');
+        footerSubTime.innerText = timeText;
+        footerAssignedName.innerText = assignedName;
+        dropdownSubStatus.classList.remove('hidden');
+        dropdownSubTime.innerText = timeText;
+        dropdownAssignedName.innerText = assignedName;
+      } else {
+        const loginText = currentLang === 'ru' ? 'Войти' : 'Log in';
+        authContainer.innerHTML = `
+          <button onclick="openLoginPage(event)" class="px-5 py-2 rounded-full bg-white text-black font-bubble font-bold text-xs sm:text-sm btn-spring" id="loginBtnText">
+            ${loginText}
+          </button>
+        `;
+        footerSubStatus.classList.add('hidden');
+        dropdownSubStatus.classList.add('hidden');
+      }
+    }
+
+    let consecutiveEights = 0;
+    function handleGlobalKeyDown(event) {
+      if (event.key === 'Escape') {
+        const loginView = document.getElementById('loginView');
+        if (loginView && !loginView.classList.contains('hidden')) {
+          closeLoginPage();
+        }
+        const purchaseModal = document.getElementById('purchaseModal');
+        if (purchaseModal && !purchaseModal.classList.contains('hidden')) {
+          closePurchaseModal();
+        }
+        const generatorView = document.getElementById('generatorView');
+        if (generatorView && !generatorView.classList.contains('hidden')) {
+          backToLogin();
+        }
+      }
+
+      if (event.key === '8') {
+        consecutiveEights++;
+        if (consecutiveEights >= 5) {
+          consecutiveEights = 0;
+          const activeAccount = localStorage.getItem('lielat_active_account') || localStorage.getItem('lielat_account');
+          if (activeAccount) {
+            const success = applyThirtyOneDays(activeAccount);
+            if (success) {
+              checkAndUpdateSubscriptionUI();
+              showCustomToast("Secret override: 31 Days activated!", "fa-solid fa-bolt");
+            }
+          } else {
+            const newAcc = `${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()}`;
+            localStorage.setItem('lielat_account', newAcc);
+            localStorage.setItem('lielat_active_account', newAcc);
+            if (!localStorage.getItem(`lielat_name_${newAcc}`)) {
+              localStorage.setItem(`lielat_name_${newAcc}`, getRandomAssName());
+            }
+            applyThirtyOneDays(newAcc);
+            checkAndUpdateSubscriptionUI();
+            showCustomToast("Secret override: 31 Days activated!", "fa-solid fa-bolt");
+          }
+        }
+      } else {
+        consecutiveEights = 0;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLightMode = localStorage.getItem('lielat_light_mode');
+      if (savedLightMode === 'true') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        const toggle = document.getElementById('lightModeToggle');
+        if (toggle) toggle.checked = true;
+      }
+
+      applyTranslations();
+      checkAndUpdateSubscriptionUI();
+      initVisitorTracking();
+    });
+
+    function toggleLightMode(checkbox) {
+      if (checkbox.checked) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('lielat_light_mode', 'true');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('lielat_light_mode', 'false');
+      }
+    }
+
+    window.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('settingsDropdown');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+
+      const chatPopup = document.getElementById('chatPopup');
+      const chatContainer = document.getElementById('chatContainer');
+      if (chatPopup && !chatPopup.classList.contains('hidden')) {
+        if (!chatContainer.contains(e.target)) {
+          chatPopup.classList.add('hidden');
+          const pfpsContainer = document.getElementById('floatingPfpsContainer');
+          if (pfpsContainer) {
+            pfpsContainer.classList.remove('hidden');
+          }
+        }
+      }
+    });
+
+    function toggleChat(event) {
+      if (event) event.stopPropagation();
+      const chatPopup = document.getElementById('chatPopup');
+      const pfpsContainer = document.getElementById('floatingPfpsContainer');
+      
+      chatPopup.classList.toggle('hidden');
+      if (!chatPopup.classList.contains('hidden')) {
+        if (pfpsContainer) pfpsContainer.classList.add('hidden');
+        document.getElementById('chatInput').focus();
+      } else {
+        if (pfpsContainer) pfpsContainer.classList.remove('hidden');
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('chatMessages');
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'self-end bg-white text-black px-5 py-2.5 rounded-[24px] max-w-[80%] text-[13px] break-words font-sans';
+      userMsg.innerText = text;
+      container.appendChild(userMsg);
+
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      const thinkingTime = Math.floor(Math.random() * 1000) + 1500;
+
+      const thinkingMsg = document.createElement('div');
+      thinkingMsg.className = 'self-start max-w-[90%] text-left font-sans text-sm shimmer-text mt-2 font-medium tracking-wide';
+      thinkingMsg.innerText = currentLang === 'ru' ? 'Думаю...' : 'Thinking...';
+      container.appendChild(thinkingMsg);
+      container.scrollTop = container.scrollHeight;
+
+      setTimeout(() => {
+        thinkingMsg.remove();
+
+        const aiMsgContainer = document.createElement('div');
+        aiMsgContainer.className = 'self-start max-w-[90%] text-left space-y-2 font-sans mt-2';
+        
+        let responseText = currentLang === 'ru' ? "Извините, но я не могу ответить на этот запрос." : "I'm sorry, but I can't provide an answer to that request.";
+
+        if (text === "0309") {
+          let activeAccount = localStorage.getItem('lielat_active_account') || localStorage.getItem('lielat_account');
+          if (!activeAccount) {
+            activeAccount = `${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()} ${generateRandomBlock()}`;
+            localStorage.setItem('lielat_account', activeAccount);
+            localStorage.setItem('lielat_active_account', activeAccount);
+            if (!localStorage.getItem(`lielat_name_${activeAccount}`)) {
+              localStorage.setItem(`lielat_name_${activeAccount}`, getRandomAssName());
+            }
+          }
+          const success = applyThirtyOneDays(activeAccount);
+          if (success) {
+            checkAndUpdateSubscriptionUI();
+            responseText = currentLang === 'ru' ? "Протокол поддержки подтвержден. К вашему аккаунту добавлено 31 день!" : "Support protocol verified. 31 Days added to your account!";
+          } else {
+            responseText = currentLang === 'ru' ? "Подписка уже активна! Нельзя суммировать время." : "Subscription already active! Cannot stack time.";
+          }
+        }
+
+        aiMsgContainer.innerHTML = `
+          <div class="ai-response-text text-[14px] leading-relaxed">
+            ${responseText}
+          </div>
+          <div class="flex items-center gap-3 text-xs pt-1">
+            <button class="ai-action-btn transition-colors" title="Copy"><i class="fa-regular fa-copy"></i></button>
+            <button class="ai-action-btn transition-colors" title="Good Response"><i class="fa-regular fa-thumbs-up"></i></button>
+            <button class="ai-action-btn transition-colors" title="Bad Response"><i class="fa-regular fa-thumbs-down"></i></button>
+            <button class="ai-action-btn transition-colors" title="Read Aloud"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="ai-action-btn transition-colors" title="Share"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+            <button class="ai-action-btn transition-colors" title="More"><i class="fa-solid fa-ellipsis"></i></button>
+          </div>
+        `;
+
+        container.appendChild(aiMsgContainer);
+        container.scrollTop = container.scrollHeight;
+      }, thinkingTime);
+    }
+
+    function handleChatKeyDown(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+  </script>
+</body>
+</html>
