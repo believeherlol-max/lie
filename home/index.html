@@ -615,13 +615,13 @@
         <nav class="glass-nav rounded-full px-5 py-2.5 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-4xl">
           
           <!-- Logo Icon Only -->
-          <a href="#" onclick="showHomeView(event)" class="flex items-center group">
+          <a href="https://lie.lat/home/" onclick="showHomeView(event)" class="flex items-center group">
             <img src="https://media.discordapp.net/attachments/1520584017089527991/1569210391643295774/4bf8d088-bf91-48d3-bb39-f15676e4966f.png?ex=6af2a08f&is=6af14f0f&hm=a9b6da10c65c93a4150c934932f72fb550dd2a3e44969be80ffbf67ab6f8046c&=&format=webp&quality=lossless&width=768&height=768" alt="lie.lat logo" class="logo-img w-9 h-9 object-contain rounded-xl transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6" />
           </a>
 
           <!-- Center Links -->
           <div class="hidden md:flex items-center space-x-6 text-sm text-gray-300 font-bubble">
-            <a href="#" onclick="showHomeView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHome">Home</a>
+            <a href="https://lie.lat/home/" onclick="showHomeView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHome">Home</a>
             <a href="#" onclick="showDashboardView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navDashboard">Dashboard</a>
             <a href="#" onclick="showHelpView(event)" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navHelp">Help</a>
             <a href="http://lie.lat/support/" target="_blank" rel="noopener noreferrer" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navSupport">Support</a>
@@ -1311,7 +1311,7 @@
 
       [home, dash, help].forEach(el => el.classList.add('hidden'));
       home.classList.remove('hidden');
-      window.history.pushState({}, '', '/');
+      window.history.pushState({}, '', '/home/');
     }
 
     function showDashboardView(event) {
