@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact & Support | lie.lat</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            kawaii: {
+              bg: '#0a0a0c',
+              surface: '#121216',
+              card: '#18181d',
+              border: 'rgba(255, 255, 255, 0.15)',
+              'border-bright': 'rgba(255, 255, 255, 0.35)',
+              white: '#ffffff'
+            }
+          },
+          fontFamily: {
+            sans: ['Sniglet', 'Inter', 'sans-serif'],
+            bubble: ['Fredoka', 'cursive', 'sans-serif']
+          },
+          animation: {
+            'slide-in': 'slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'blink': 'blink 0.9s infinite',
+            'slow-pulse': 'slowPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+            'fade-scale': 'fadeScale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'view-transition': 'viewTransition 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            slideIn: {
+              '0%': { opacity: '0', transform: 'translateX(-30px) scale(0.99)' },
+              '100%': { opacity: '1', transform: 'translateX(0) scale(1)' }
+            },
+            viewTransition: {
+              '0%': { opacity: '0', transform: 'translateY(12px) scale(0.99)' },
+              '100%': { opacity: '1', transform: 'translateY(0) scale(1)' }
+            },
+            blink: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0' }
+            },
+            slowPulse: {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.4', transform: 'scale(0.85)' }
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' }
+            },
+            fadeScale: {
+              '0%': { opacity: '0', transform: 'scale(0.92) translateY(8px)' },
+              '100%': { opacity: '1', transform: 'scale(1) translateY(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Fredoka & Sniglet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Sniglet:wght@400;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* Prevent default document scrolling */
+    html, body {
+      background-color: #0a0a0c;
+      color: #ffffff;
+      font-family: 'Sniglet', cursive, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Page Viewport Scroll Container */
+    .page-viewport {
+      height: 100vh;
+      width: 100vw;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a35 transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .page-viewport::-webkit-scrollbar {
+      width: 6px;
+    }
+    .page-viewport::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .page-viewport::-webkit-scrollbar-thumb {
+      background: #2a2a35;
+      border-radius: 10px;
+    }
+    html.light .page-viewport::-webkit-scrollbar-thumb {
+      background: #d1d1d6;
+    }
+
+    /* Light Mode Overrides */
+    html.light body {
+      background-color: #f4f4f7 !important;
+      color: #0a0a0c !important;
+    }
+    html.light .top-banner {
+      background-color: #ffffff !important;
+      color: #0a0a0c !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+    html.light .top-banner span, html.light .top-banner button, html.light .top-banner i {
+      color: #0a0a0c !important;
+    }
+    html.light #bannerCurrencyMenu {
+      background-color: #ffffff !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    }
+    html.light #bannerCurrencyMenu > div:hover {
+      background-color: rgba(0, 0, 0, 0.05) !important;
+    }
+    html.light .glass-nav {
+      background: rgba(255, 255, 255, 0.75) !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+    }
+    html.light .glass-pill {
+      background: rgba(240, 240, 245, 0.9) !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+    }
+    html.light .dropdown-menu {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 1.5px solid rgba(0, 0, 0, 0.15) !important;
+    }
+    html.light .text-gray-300 {
+      color: #4b5563 !important;
+    }
+    html.light .text-gray-400 {
+      color: #6b7280 !important;
+    }
+    html.light .text-white {
+      color: #0a0a0c !important;
+    }
+    html.light .auth-card {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .auth-inner-box {
+      background-color: #f4f4f7 !important;
+      border-color: rgba(0, 0, 0, 0.1) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .auth-input {
+      background-color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      color: #0a0a0c !important;
+    }
+    html.light .auth-btn {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+    }
+    html.light #logoutBtn {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+      border-color: rgba(0, 0, 0, 0.2) !important;
+    }
+    html.light .logo-img {
+      filter: invert(1) brightness(0.2);
+    }
+
+    .font-bubble {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+
+    /* Glassmorphism Navigation */
+    .glass-nav {
+      background: rgba(18, 18, 22, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+    }
+    .glass-nav:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    html.light .glass-nav:hover {
+      border-color: rgba(0, 0, 0, 0.25);
+    }
+
+    .glass-pill {
+      background: rgba(24, 24, 29, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), border-color 0.3s ease, background 0.3s ease;
+    }
+    .glass-pill:hover {
+      transform: translateY(-3px) scale(1.04);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+    html.light .glass-pill:hover {
+      border-color: rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-spring {
+      transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-spring:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+    .btn-spring:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 50%;
+      background-color: currentColor;
+      border-radius: 2px;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+
+    .ios-switch {
+      position: relative;
+      display: inline-block;
+      width: 51px;
+      height: 31px;
+    }
+    .ios-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .ios-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #39393d;
+      transition: .35s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 34px;
+    }
+    html.light .ios-slider {
+      background-color: #d1d1d6;
+    }
+    .ios-slider:before {
+      position: absolute;
+      content: "";
+      height: 27px;
+      width: 27px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .35s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 50%;
+    }
+    input:checked + .ios-slider {
+      background-color: #34c759;
+    }
+    input:checked + .ios-slider:before {
+      transform: translateX(20px);
+    }
+
+    #customToastContainer {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .custom-toast {
+      pointer-events: auto;
+      background: #121216;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateY(-15px) scale(0.96);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.35s ease;
+    }
+    .custom-toast.show {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .custom-toast.hide {
+      transform: translateY(-15px) scale(0.96);
+      opacity: 0;
+    }
+    html.light .custom-toast {
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 0, 0, 0.15);
+      color: #0a0a0c;
+    }
+  </style>
+</head>
+<body onkeydown="handleGlobalKeyDown(event)">
+
+  <div class="page-viewport">
+
+    <!-- Top Banner -->
+    <div class="top-banner w-full bg-[#0a0a0c] text-white border-b border-white/10 px-4 py-1 text-xs flex items-center justify-between font-bubble z-50 flex-shrink-0">
+      <div class="flex items-center gap-1.5 text-gray-300">
+        <i class="fa-solid fa-headset text-[11px]"></i>
+        <span id="supportBannerText">Служба Поддержки</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <button onclick="toggleBannerCurrencyDropdown(event)" class="flex items-center gap-1 text-gray-300 hover:text-white transition-colors cursor-pointer">
+            <span id="bannerCurrencyLabel">USD — $</span>
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+          </button>
+          <div id="bannerCurrencyMenu" class="hidden absolute right-0 mt-1 w-28 bg-[#121216] border border-white/15 rounded-xl p-1 z-50 text-[11px] font-bubble space-y-0.5 shadow-xl animate-fade-scale">
+            <div onclick="setBannerCurrency('USD — $')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">USD — $</div>
+            <div onclick="setBannerCurrency('EUR — €')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">EUR — €</div>
+            <div onclick="setBannerCurrency('GBP — £')" class="px-2.5 py-1 rounded-lg hover:bg-white/10 cursor-pointer">GBP — £</div>
+          </div>
+        </div>
+        <button onclick="toggleLanguage()" class="text-gray-300 hover:text-white transition-colors cursor-pointer" id="langToggleBtn">
+          Switch to English
+        </button>
+      </div>
+    </div>
+
+    <!-- Custom Toast Container -->
+    <div id="customToastContainer"></div>
+
+    <!-- Main View Container -->
+    <div id="mainView" class="relative z-10 flex flex-col flex-1 justify-between items-center px-4 py-2 md:py-4 max-w-[1400px] mx-auto w-full animate-slide-in">
+
+      <!-- Header Navigation -->
+      <header class="w-full flex justify-center pt-1 flex-shrink-0">
+        <nav class="glass-nav rounded-full px-5 py-2.5 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-4xl">
+          
+          <!-- Logo -->
+          <a href="http://lie.lat/home/" class="flex items-center group">
+            <img src="https://media.discordapp.net/attachments/1520584017089527991/1569210391643295774/4bf8d088-bf91-48d3-bb39-f15676e4966f.png?ex=6af2a08f&is=6af14f0f&hm=a9b6da10c65c93a4150c934932f72fb550dd2a3e44969be80ffbf67ab6f8046c&=&format=webp&quality=lossless&width=768&height=768" alt="lie.lat logo" class="logo-img w-9 h-9 object-contain rounded-xl transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6" />
+          </a>
+
+          <!-- Navigation Links -->
+          <div class="hidden md:flex items-center space-x-6 text-sm text-gray-300 font-bubble">
+            <a href="http://lie.lat/home/" class="nav-link hover:text-white transition-colors duration-200 inline-block" id="navMainSite">Главный сайт</a>
+            <a href="#" class="nav-link hover:text-white transition-colors duration-200 inline-block text-white font-bold" id="navContact">Контакты</a>
+          </div>
+
+          <!-- Settings & Auth Controls -->
+          <div class="flex items-center space-x-2 sm:space-x-3 relative">
+            <div class="relative">
+              <button onclick="toggleSettingsDropdown(event)" class="w-9 h-9 rounded-full glass-pill flex items-center justify-center text-gray-300 hover:text-white transition-transform duration-300" title="Settings">
+                <i class="fa-solid fa-gear text-sm"></i>
+              </button>
+
+              <div id="settingsDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-2xl p-3 dropdown-menu glass-pill z-50 font-bubble space-y-3 animate-fade-scale">
+                <div class="flex items-center justify-between px-2 py-1">
+                  <span class="text-xs font-bold text-gray-300" id="setLightModeLabel">Светлая тема</span>
+                  <label class="ios-switch" style="transform: scale(0.75); transform-origin: right center;">
+                    <input type="checkbox" id="lightModeToggle" onchange="toggleLightMode(this)">
+                    <span class="ios-slider"></span>
+                  </label>
+                </div>
+                <div id="dropdownSubStatus" class="border-t border-white/10 pt-2 px-2 hidden">
+                  <div id="dropdownAssignedName" class="text-[11px] font-bold text-blue-400 mb-0.5"></div>
+                  <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="dropdownPaidUntilLabel">Оплачено до</div>
+                  <div id="dropdownSubTime" class="text-xs font-bold text-white">No time left</div>
+                </div>
+              </div>
+            </div>
+
+            <div id="authButtonContainer" class="flex items-center">
+              <button onclick="openLoginPage(event)" class="px-5 py-2 rounded-full bg-white text-black font-bubble font-bold text-xs sm:text-sm btn-spring" id="loginBtnText">
+                Войти
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Center Content: Contact & Email Support Direct Layout -->
+      <main class="w-full flex-1 flex flex-col justify-center items-center max-w-2xl mx-auto px-4 my-8 z-10 text-center animate-view-transition font-bubble space-y-6">
+        
+        <div>
+          <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="contactTag">СВЯЖИТЕСЬ С НАМИ</span>
+          <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight" id="contactTitle">Центр Поддержки</h1>
+          <p class="text-gray-400 text-xs sm:text-sm mt-3 max-w-md mx-auto" id="contactSub">
+            Наша команда готова ответить на любые ваши вопросы по поводу работы сервиса, оплаты и конфиденциальности.
+          </p>
+        </div>
+
+        <!-- Direct Email Display -->
+        <div class="w-full space-y-2">
+          <span class="text-[11px] text-gray-400 font-bold block" id="emailLabel">Электронная почта поддержки</span>
+          <div onclick="copyEmailAddress(this)" class="inline-flex items-center gap-3 px-6 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 rounded-2xl cursor-pointer transition-all duration-200 group">
+            <span class="font-mono text-lg sm:text-xl font-bold text-white tracking-wider">support@lie.lat</span>
+            <span class="text-xs bg-white/10 text-gray-300 px-3 py-1 rounded-xl group-hover:bg-white group-hover:text-black transition-colors" id="copyEmailBtnText">
+              <i class="fa-regular fa-copy mr-1"></i> Копировать
+            </span>
+          </div>
+        </div>
+
+        <!-- Direct Response Time Display -->
+        <div class="pt-2">
+          <div class="text-xs font-bold text-gray-400 uppercase tracking-widest" id="responseTimeTitle">Время ответа</div>
+          <div class="text-sm font-bold text-white mt-1" id="responseTimeText">12-24 часа</div>
+        </div>
+
+      </main>
+
+      <!-- Footer -->
+      <footer class="w-full pb-2 pt-1 flex items-center justify-between px-4 max-w-4xl font-bubble text-xs flex-shrink-0">
+        <div id="footerSubStatus" class="hidden flex items-center gap-3">
+          <div>
+            <div id="footerAssignedName" class="text-[11px] font-bold text-blue-400 mb-0.5"></div>
+            <div class="text-[10px] text-gray-400 tracking-wider font-bold" id="footerPaidUntilLabel">Оплачено до</div>
+            <div id="footerSubTime" class="text-xs font-bold text-white">No time left</div>
+          </div>
+        </div>
+        <div></div>
+      </footer>
+    </div>
+
+  </div>
+
+  <!-- Login Overlay -->
+  <div id="loginView" class="hidden fixed inset-0 z-[100] bg-[#0a0a0c]/70 backdrop-blur-md flex flex-col justify-center items-center px-4 py-12 opacity-0 transition-opacity duration-300 overflow-y-auto">
+    <button onclick="closeLoginPage(event)" class="absolute top-6 left-6 text-gray-400 hover:text-white font-bubble text-sm flex items-center gap-2 transition-transform duration-200 hover:-translate-x-1" id="loginBackBtn">
+      <i class="fa-solid fa-arrow-left"></i> Назад
+    </button>
+
+    <div id="loginCard" class="w-full max-w-lg auth-card bg-[#121216] border border-white/10 rounded-3xl p-8 sm:p-10 flex flex-col space-y-6 font-bubble transform scale-95 opacity-0 transition-all duration-400">
+      <div>
+        <span class="text-[10px] tracking-widest text-gray-400 font-bold block mb-1" id="loginTitleTag">ВХОД</span>
+        <h2 class="text-white text-xl sm:text-2xl font-bold tracking-tight" id="loginHeaderTitle">ВВЕДИТЕ НОМЕР АККАУНТА</h2>
+        <p class="text-gray-400 text-xs mt-1.5 leading-relaxed" id="loginDescText">
+          Номер аккаунта — ваш единственный идентификатор. <strong class="text-gray-200">Из соображений безопасности мы не сможем показать его снова после входа.</strong>
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="auth-inner-box flex items-center gap-3 bg-[#0a0a0c] border border-white/10 rounded-2xl p-4 transition-colors duration-200 hover:border-white/20">
+          <input type="checkbox" id="savedConfirm" class="w-4 h-4 accent-white cursor-pointer" />
+          <label for="savedConfirm" class="text-xs text-gray-300 cursor-pointer select-none" id="loginCheckboxLabel">
+            Вы сохранили номер своего аккаунта? Я подтверждаю.
+          </label>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-2" id="loginAccLabel">Номер аккаунта</label>
+          <div class="relative">
+            <input type="password" id="loginInput" placeholder="" class="auth-input w-full bg-[#0a0a0c] border border-white/15 rounded-2xl px-4 py-3.5 text-xs text-white focus:outline-none focus:border-white/40 tracking-wider font-mono transition-colors duration-200" />
+            <button onclick="togglePasswordVisibility()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs transition-transform active:scale-90">
+              <i id="eyeIcon" class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button onclick="performLogin()" class="auth-btn w-full bg-white hover:bg-gray-200 border border-white/20 text-black font-bold text-sm py-4 rounded-2xl transition-transform duration-200 transform hover:-translate-y-0.5 active:translate-y-0.5 tracking-widest" id="loginSubmitBtn">
+          ВОЙТИ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Language Toggle / Localization
+    if (!localStorage.getItem('lielat_lang_initialized')) {
+      localStorage.setItem('lielat_lang', 'ru');
+      localStorage.setItem('lielat_lang_initialized', 'true');
+    }
+    let currentLang = localStorage.getItem('lielat_lang') || 'ru';
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'ru' : 'en';
+      localStorage.setItem('lielat_lang', currentLang);
+      applyTranslations();
+      showCustomToast(currentLang === 'ru' ? 'Язык изменен на Русский' : 'Language switched to English', 'fa-solid fa-language');
+    }
+
+    function setBannerCurrency(val) {
+      document.getElementById('bannerCurrencyLabel').innerText = val;
+      document.getElementById('bannerCurrencyMenu').classList.add('hidden');
+      const currencySymbol = val.split(' — ')[1];
+      const currencyCode = val.split(' — ')[0];
+      showCustomToast(`Currency updated to ${currencyCode} (${currencySymbol})`, 'fa-solid fa-coins');
+    }
+
+    function applyTranslations() {
+      const langBtn = document.getElementById('langToggleBtn');
+      const supportText = document.getElementById('supportBannerText');
+      const navMainSite = document.getElementById('navMainSite');
+      const navContact = document.getElementById('navContact');
+      const setLightModeLabel = document.getElementById('setLightModeLabel');
+      const dropdownPaidUntilLabel = document.getElementById('dropdownPaidUntilLabel');
+      const footerPaidUntilLabel = document.getElementById('footerPaidUntilLabel');
+      const loginBtnText = document.getElementById('loginBtnText');
+      
+      const contactTag = document.getElementById('contactTag');
+      const contactTitle = document.getElementById('contactTitle');
+      const contactSub = document.getElementById('contactSub');
+      const emailLabel = document.getElementById('emailLabel');
+      const copyEmailBtnText = document.getElementById('copyEmailBtnText');
+      const responseTimeTitle = document.getElementById('responseTimeTitle');
+      const responseTimeText = document.getElementById('responseTimeText');
+
+      const loginBackBtn = document.getElementById('loginBackBtn');
+      const loginTitleTag = document.getElementById('loginTitleTag');
+      const loginHeaderTitle = document.getElementById('loginHeaderTitle');
+      const loginDescText = document.getElementById('loginDescText');
+      const loginCheckboxLabel = document.getElementById('loginCheckboxLabel');
+      const loginAccLabel = document.getElementById('loginAccLabel');
+      const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+
+      if (currentLang === 'ru') {
+        if (langBtn) langBtn.innerText = "Switch to English";
+        if (supportText) supportText.innerText = "Служба Поддержки";
+        if (navMainSite) navMainSite.innerText = "Главный сайт";
+        if (navContact) navContact.innerText = "Контакты";
+        if (setLightModeLabel) setLightModeLabel.innerText = "Светлая тема";
+        if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Оплачено до";
+        if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Оплачено до";
+        if (loginBtnText) loginBtnText.innerText = "Войти";
+        
+        if (contactTag) contactTag.innerText = "СВЯЖИТЕСЬ С НАМИ";
+        if (contactTitle) contactTitle.innerText = "Центр Поддержки";
+        if (contactSub) contactSub.innerText = "Наша команда готова ответить на любые ваши вопросы по поводу работы сервиса, оплаты и конфиденциальности.";
+        if (emailLabel) emailLabel.innerText = "Электронная почта поддержки";
+        if (copyEmailBtnText) copyEmailBtnText.innerHTML = '<i class="fa-regular fa-copy mr-1"></i> Копировать';
+        if (responseTimeTitle) responseTimeTitle.innerText = "ВРЕМЯ ОТВЕТА";
+        if (responseTimeText) responseTimeText.innerText = "12-24 часа";
+
+        if (loginBackBtn) loginBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Назад';
+        if (loginTitleTag) loginTitleTag.innerText = "ВХОД";
+        if (loginHeaderTitle) loginHeaderTitle.innerText = "ВВЕДИТЕ НОМЕР АККАУНТА";
+        if (loginDescText) loginDescText.innerHTML = 'Номер аккаунта — ваш единственный идентификатор. <strong class="text-gray-200">Из соображений безопасности мы не сможем показать его снова после входа.</strong>';
+        if (loginCheckboxLabel) loginCheckboxLabel.innerText = "Вы сохранили номер своего аккаунта? Я подтверждаю.";
+        if (loginAccLabel) loginAccLabel.innerText = "Номер аккаунта";
+        if (loginSubmitBtn) loginSubmitBtn.innerText = "ВОЙТИ";
+      } else {
+        if (langBtn) langBtn.innerText = "Переключить на Русский";
+        if (supportText) supportText.innerText = "Support Center";
+        if (navMainSite) navMainSite.innerText = "Main Site";
+        if (navContact) navContact.innerText = "Contact";
+        if (setLightModeLabel) setLightModeLabel.innerText = "Light Mode";
+        if (dropdownPaidUntilLabel) dropdownPaidUntilLabel.innerText = "Paid until";
+        if (footerPaidUntilLabel) footerPaidUntilLabel.innerText = "Paid until";
+        if (loginBtnText) loginBtnText.innerText = "Log in";
+
+        if (contactTag) contactTag.innerText = "GET IN TOUCH";
+        if (contactTitle) contactTitle.innerText = "Support Center";
+        if (contactSub) contactSub.innerText = "Our team is here to help with any questions regarding service features, billing, or privacy concerns.";
+        if (emailLabel) emailLabel.innerText = "Support Email Address";
+        if (copyEmailBtnText) copyEmailBtnText.innerHTML = '<i class="fa-regular fa-copy mr-1"></i> Copy';
+        if (responseTimeTitle) responseTimeTitle.innerText = "RESPONSE TIME";
+        if (responseTimeText) responseTimeText.innerText = "12-24 hours";
+
+        if (loginBackBtn) loginBackBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back';
+        if (loginTitleTag) loginTitleTag.innerText = "LOG IN";
+        if (loginHeaderTitle) loginHeaderTitle.innerText = "ENTER YOUR ACCOUNT NUMBER";
+        if (loginDescText) loginDescText.innerHTML = 'Your account number is the only identifier you need to use our service. <strong class="text-gray-200">For security and privacy reasons we cannot show it again after login.</strong>';
+        if (loginCheckboxLabel) loginCheckboxLabel.innerText = "Have you saved your account number? I confirm that I've saved my account number.";
+        if (loginAccLabel) loginAccLabel.innerText = "Account number";
+        if (loginSubmitBtn) loginSubmitBtn.innerText = "LOG IN";
+      }
+    }
+
+    function toggleBannerCurrencyDropdown(event) {
+      event.stopPropagation();
+      document.getElementById('bannerCurrencyMenu').classList.toggle('hidden');
+    }
+
+    function toggleSettingsDropdown(event) {
+      event.stopPropagation();
+      document.getElementById('settingsDropdown').classList.toggle('hidden');
+    }
+
+    function showCustomToast(message, iconClass = "fa-solid fa-circle-check") {
+      const container = document.getElementById('customToastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'custom-toast';
+      toast.innerHTML = `<i class="${iconClass} text-base"></i> <span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 350);
+      }, 4000);
+    }
+
+    function copyEmailAddress(element) {
+      const email = "support@lie.lat";
+      navigator.clipboard.writeText(email);
+      showCustomToast("Support email copied to clipboard!", "fa-regular fa-copy");
+    }
+
+    function openLoginPage(event) {
+      if (event) event.preventDefault();
+      const view = document.getElementById('loginView');
+      const card = document.getElementById('loginCard');
+      
+      view.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('loginInput').value = '';
+      document.getElementById('savedConfirm').checked = false;
+
+      setTimeout(() => {
+        view.classList.remove('opacity-0');
+        card.classList.remove('scale-95', 'opacity-0');
+        card.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeLoginPage(event) {
+      if (event) event.preventDefault();
+      const view = document.getElementById('loginView');
+      const card = document.getElementById('loginCard');
+
+      view.classList.add('opacity-0');
+      card.classList.remove('scale-100', 'opacity-100');
+      card.classList.add('scale-95', 'opacity-0');
+
+      setTimeout(() => {
+        view.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 350);
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('loginInput');
+      const icon = document.getElementById('eyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    function performLogin() {
+      const confirmed = document.getElementById('savedConfirm').checked;
+      const val = document.getElementById('loginInput').value.trim();
+
+      if (!confirmed) {
+        showCustomToast("Please confirm that you have saved your account number.", "fa-solid fa-triangle-exclamation");
+        return;
+      }
+      if (!val) {
+        showCustomToast("Please enter your account number.", "fa-solid fa-triangle-exclamation");
+        return;
+      }
+
+      localStorage.setItem('lielat_logged_in', 'true');
+      localStorage.setItem('lielat_active_account', val);
+
+      showCustomToast("Successfully logged in to lie.lat!", "fa-solid fa-shield-check");
+      setTimeout(() => {
+        closeLoginPage();
+        checkAndUpdateSubscriptionUI();
+      }, 600);
+    }
+
+    function performLogout() {
+      localStorage.removeItem('lielat_logged_in');
+      localStorage.removeItem('lielat_active_account');
+      updateLoginUI(false, "");
+      showCustomToast("Logged out successfully.", "fa-solid fa-right-from-bracket");
+    }
+
+    function checkAndUpdateSubscriptionUI() {
+      const isLoggedIn = localStorage.getItem('lielat_logged_in') === 'true';
+      const activeAccount = localStorage.getItem('lielat_active_account');
+
+      if (!isLoggedIn || !activeAccount) {
+        updateLoginUI(false, "");
+        return;
+      }
+
+      const expiry = parseInt(localStorage.getItem(`lielat_expiry_${activeAccount}`) || '0', 10);
+      let assignedName = localStorage.getItem(`lielat_name_${activeAccount}`) || "Account User";
+
+      if (Date.now() >= expiry) {
+        updateLoginUI(true, "No time left", assignedName);
+      } else {
+        updateLoginUI(true, "Active", assignedName);
+      }
+    }
+
+    function updateLoginUI(isLoggedIn, timeText, assignedName = "") {
+      const authContainer = document.getElementById('authButtonContainer');
+      const footerSubStatus = document.getElementById('footerSubStatus');
+      const footerSubTime = document.getElementById('footerSubTime');
+      const footerAssignedName = document.getElementById('footerAssignedName');
+      const dropdownSubStatus = document.getElementById('dropdownSubStatus');
+      const dropdownSubTime = document.getElementById('dropdownSubTime');
+      const dropdownAssignedName = document.getElementById('dropdownAssignedName');
+
+      const logoutText = currentLang === 'ru' ? 'Выйти' : 'Log out';
+
+      if (isLoggedIn) {
+        authContainer.innerHTML = `
+          <button id="logoutBtn" onclick="performLogout()" class="px-4 py-2 rounded-full bg-[#18181d] hover:bg-[#22222b] border border-white/25 text-white font-bubble font-bold text-xs sm:text-sm btn-spring">
+            ${logoutText}
+          </button>
+        `;
+        footerSubStatus.classList.remove('hidden');
+        footerSubTime.innerText = timeText;
+        footerAssignedName.innerText = assignedName;
+        dropdownSubStatus.classList.remove('hidden');
+        dropdownSubTime.innerText = timeText;
+        dropdownAssignedName.innerText = assignedName;
+      } else {
+        const loginText = currentLang === 'ru' ? 'Войти' : 'Log in';
+        authContainer.innerHTML = `
+          <button onclick="openLoginPage(event)" class="px-5 py-2 rounded-full bg-white text-black font-bubble font-bold text-xs sm:text-sm btn-spring" id="loginBtnText">
+            ${loginText}
+          </button>
+        `;
+        footerSubStatus.classList.add('hidden');
+        dropdownSubStatus.classList.add('hidden');
+      }
+    }
+
+    function handleGlobalKeyDown(event) {
+      if (event.key === 'Escape') {
+        const loginView = document.getElementById('loginView');
+        if (loginView && !loginView.classList.contains('hidden')) {
+          closeLoginPage();
+        }
+      }
+    }
+
+    function toggleLightMode(checkbox) {
+      if (checkbox.checked) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('lielat_light_mode', 'true');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('lielat_light_mode', 'false');
+      }
+    }
+
+    window.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('settingsDropdown');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+      const bannerMenu = document.getElementById('bannerCurrencyMenu');
+      if (bannerMenu && !bannerMenu.classList.contains('hidden')) {
+        bannerMenu.classList.add('hidden');
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLightMode = localStorage.getItem('lielat_light_mode');
+      if (savedLightMode === 'true') {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        const toggle = document.getElementById('lightModeToggle');
+        if (toggle) toggle.checked = true;
+      }
+
+      applyTranslations();
+      checkAndUpdateSubscriptionUI();
+    });
+  </script>
+</body>
+</html>
